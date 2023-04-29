@@ -1,0 +1,12 @@
+<h2>
+  <form action="{% url 'sitemestrado:loginpage' %}" method="post">
+      {% csrf_token %}
+      <p>
+          Username:  <input type="text" name="username"/>
+          Password:  <input type="Password" name="password"/>
+      </p>
+      <input type="submit" value="Entrar"/>
+  </form>
+</h2>
+<a href="{% url 'sitemestrado:index' %}">Voltar à página inicial</a>
+<a href="{% url 'sitemestrado:registar' %}"> Criar conta </a>
