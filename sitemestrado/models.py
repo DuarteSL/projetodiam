@@ -7,6 +7,7 @@ from django.utils import timezone
 class Aluno(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     imagem = models.TextField()
+    is_public = models.BooleanField(default=True)
 
     ''' precisa de mais campos para a pagina de info pessoal'''
 
@@ -38,8 +39,9 @@ class Noticia(models.Model):
     noticia_conteudo = models.TextField()
     noticia_data_pub = models.DateTimeField(default=timezone.now)
     noticia_autor = models.CharField(max_length=200)
-    noticia_privacidade = models.BooleanField()
+    noticia_privacidade = models.BooleanField(default=True)
     imagem = models.TextField()
+    ficheiro = models.TextField()
 
     def __str__(self):
       return self.noticia_nome
@@ -47,7 +49,7 @@ class Noticia(models.Model):
 
 class Disciplina(models.Model):
     disciplina_nome = models.CharField(max_length=200)
-    professores = models.ManyToManyField('Professor',related_name='disciplinas')
+    professores = models.ManyToManyField('Professor',related_name='disciplinas', default = None)
 
     def __str__(self):
       return self.disciplina_nome
@@ -63,8 +65,7 @@ class Post(models.Model):
     ficheiro = models.TextField()
     referencia_youtube = models.TextField()
 
-    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
-    ''' pode ser null? ou seja podemos num sitio quando criamos um post associar a uma disciplina, mas noutro sitio quando criamos n tem nenhuma disciplina associada'''
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, default = None)
 
     def __str__(self):
       return self.post_nome

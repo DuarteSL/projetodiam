@@ -6,11 +6,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
+from .models import Noticia
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'sitemestrado/index.html')
+    noticias_list = Noticia.objects.order_by('-noticia_data_pub')
+    context = {
+        'noticias_list' : noticias_list
+    }
+    return render(request, 'sitemestrado/index.html',context)
 
 
 def loginpage(request):

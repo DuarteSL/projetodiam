@@ -1,0 +1,24 @@
+.noticias-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.content-container {
+    display: flex;
+}
+
+.body-container {
+    padding-top: 45px;
+}
+
+.noticias-container-left {
+    flex: 2;
+}
+
+.eventos-container-right {
+    flex: 1;
+    background-color: lightblue;
+    position: relative;
+    top: 0;
+    right: 0;
+}

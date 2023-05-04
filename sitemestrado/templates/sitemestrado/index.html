@@ -3,11 +3,12 @@
     <head>
         {% load static %}
          <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}"> 
+         <link rel="stylesheet" type="text/css" href="{% static 'css/content.css' %}"> 
         {%block title%}
         <title> A definir </title>
         {% endblock%}
     </head>
-    <body style="margin: 100px; padding-bottom: 1000px">
+    <body style="margin: 6%; padding-bottom: 1000px">
       <div class="login-container" style="position: fixed; top:0; right:0;" >
           {% if request.user.is_authenticated %}
                     <div> {{ user.get_username }} </div>
@@ -18,37 +19,45 @@
                     <button class="buttons-default" onclick="window.open('registar','_self')"> Registar </button>
                 {% endif %}
       </div>
+      <header class="menu">
+        <nav id='menu'>
+          <ul>
+            <li><a href="{% url 'sitemestrado:index' %}">Página Inicial</a></li>
+            <li><a href="{% url 'sitemestrado:forum' %}">Fórum</a></li>
+            <li><a href="{% url 'sitemestrado:eventos' %}">Eventos</a></li>
+            <li><a class='dropdown-arrow' href="{% url 'sitemestrado:disciplinas' %}">Disciplinas</a>
+              <ul class='sub-menus'>
+                <li><a href='http://'>Disciplina 1</a></li>
+                <li><a href='http://'>Disciplina 2</a></li>
+                <li><a href='http://'>Disciplina 3</a></li>
+              </ul>
+            </li>
+            <li><a href="{% url 'sitemestrado:infopessoal' %}">Informações Pessoais</a></li>
+          </ul>
+        </nav>
+      </header>
       <div class="body-container">
-        <header class="menu">
-          <nav id='menu'>
-            <ul>
-              <li><a href="{% url 'sitemestrado:index' %}">Página Inicial</a></li>
-              <li><a href="{% url 'sitemestrado:forum' %}">Fórum</a></li>
-              <li><a href="{% url 'sitemestrado:eventos' %}">Eventos</a></li>
-              <li><a class='dropdown-arrow' href="{% url 'sitemestrado:disciplinas' %}">Disciplinas</a>
-                <ul class='sub-menus'>
-                  <li><a href='http://'>Disciplina 1</a></li>
-                  <li><a href='http://'>Disciplina 2</a></li>
-                  <li><a href='http://'>Disciplina 3</a></li>
-                </ul>
-              </li>
-              <li><a href="{% url 'sitemestrado:infopessoal' %}">Informações Pessoais</a></li>
-            </ul>
-          </nav>
-        </header>
         <div class="content-container">
-          <div class="noticias-container-left" style="display:inline-block">
+          <div class="noticias-container-left">
             <div class="noticias-title">
-              <h1>Notícias</h1>
-            </div>
+            <h1>Notícias</h1>
+          </div>
             <div class="noticias-list"> <!-- vai ter que ser grid com 2/3 colunas -->
               <!-- Ciclo for com um noticia in noticias_list -->
-              xd
-              <div class="noticias-layout">
-              </div>
+              {% if noticias_list %}
+                {% for noticia in noticias_list %}
+                  <div class="noticias-layout">
+                    <p>
+                       {{ noticia.noticia_nome }}
+                    </p>
+                  </div>
+                  {% endfor %}
+              {% else %}
+                <p> Não há notícias de momento. </p>
+              {% endif %}
             </div>
          </div>
-          <div class="eventos-container-right" style="display:inline-block">
+          <div class="eventos-container-right">
            aa
          </div>
        </div>
