@@ -9,16 +9,22 @@
 
 .body-container {
     padding-top: 45px;
+    background-color: red;
 }
 
 .noticias-container-left {
     flex: 2;
 }
 
+.noticias-layout {
+    border-radius: 10px;
+    border-color: lightgreen;
+}
+
 .eventos-container-right {
     flex: 1;
     background-color: lightblue;
-    position: relative;
+    position: fixed;
     top: 0;
     right: 0;
 }
