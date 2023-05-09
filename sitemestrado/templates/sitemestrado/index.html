@@ -8,11 +8,14 @@
         <title> A definir </title>
         {% endblock%}
     </head>
-    <body style="margin: 6%; padding-bottom: 1000px">
+    <body>
       <div class="login-container" style="position: fixed; top:0; right:0;" >
           {% if request.user.is_authenticated %}
-                    <div> {{ user.get_username }} </div>
-                    <div class="logo-container"> 
+                    <div style="display: inline-block"> 
+                      {{ user.get_username }} 
+                    </div>
+                    <div class="logo-container" style="display: inline-block"> 
+                      <button class="buttons-default" onclick="window.open('logoutpage','_self')">Logout </button> 
                     </div>
                  {% else %}
                     <button class="buttons-default" onclick="window.open('loginpage','_self')"> Login</button>
@@ -37,19 +40,46 @@
         </nav>
       </header>
       <div class="body-container">
+        {% block content %}
         <div class="content-container">
           <div class="noticias-container-left">
-            <div class="noticias-title">
-            <h1>Notícias</h1>
-          </div>
+            <div class="noticias-title-and-button">
+              <div class="noticias-title">
+                <h2> Notícias <h2>
+              </div>  
+              <div class="noticias-add-button">
+                <button class="buttons-default" onclick="window.open('criarnoticia','_self')"> Criar notícia </button>
+              </div>
+            </div>
             <div class="noticias-list"> <!-- vai ter que ser grid com 2/3 colunas -->
               <!-- Ciclo for com um noticia in noticias_list -->
               {% if noticias_list %}
                 {% for noticia in noticias_list %}
                   <div class="noticias-layout">
-                    <p>
-                       {{ noticia.noticia_nome }}
-                    </p>
+                    <div class="noticias-imagem">
+                      <a href="{% url 'sitemestrado:detalhenoticia' noticia.id %}">
+                        {% if noticia.imagens.all %}
+                            <!-- <img id="btn1" class="show2" src="{{request.user.aluno.imagem }}" height="100"> -->
+                        {% else %}
+                            <img src="{% static "/imagens/defaultnoticia.png" %}" width="100%">
+                        {% endif %}
+                      </a>
+                    </div>
+                    <div class="noticias-autor-data">
+                      <div class="noticia-autor">
+                        <!-- href para o paginauser com o noticia.noticia_autor_id -->
+                          {{ noticia.noticia_autor }}
+
+                      </div>
+                      <div class="noticia-data">
+                        {{ noticia.noticia_data_pub }}
+                      </div>
+                    </div>
+                    <div class="noticias-nome">
+                      <a href="{% url 'sitemestrado:detalhenoticia' noticia.id %}">
+                        {{ noticia.noticia_nome }}
+                      </a>
+                    </div>
                   </div>
                   {% endfor %}
               {% else %}
@@ -59,8 +89,9 @@
          </div>
           <div class="eventos-container-right">
            aa
-         </div>
+          </div>
        </div>
+       {% endblock %}
       </div>
     </body>
 </html>

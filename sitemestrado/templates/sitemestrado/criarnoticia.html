@@ -1,0 +1,17 @@
+<title> Criar nova notícia </title>
+<h2>
+    {% load static %}
+    <form action="{% url 'sitemestrado:criarnoticia' %}" method="post">
+        {% csrf_token %}
+            <p>Título:  <input type="text" name="titulo"/></p>
+            <p>Conteúdo:  <input type="text" name="conteudo"/></p>
+            <p>Privada:   <input type="checkbox" name="privada"/></p>
+            <!-- 
+            <p>Ficheiro:   <input type="file" name="ficheiro"/></p>
+            <p>Imagem:   <input type="image" name="imagem"/></p>
+            -->
+        <input type="submit" value="Criar Notícia"/>
+    </form>
+</h2>
+
+<a href="{% url 'sitemestrado:index' %}">Voltar à página inicial</a>

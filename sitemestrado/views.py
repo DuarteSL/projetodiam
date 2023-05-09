@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Noticia
+from datetime import datetime
 
 # Create your views here.
 
@@ -32,7 +33,7 @@ def loginpage(request):
 
 def logoutpage(request):
     logout(request)
-    return HttpResponseRedirect(reverse('votacao:index'))
+    return HttpResponseRedirect(reverse('sitemestrado:index'))
 
 def registar(request):
     if request.method == 'POST':
@@ -56,3 +57,27 @@ def disciplinas(request):
 @login_required(login_url='/sitemestrado/loginpage')
 def forum(request):
     return render(request, 'sitemestrado/forum.html')
+
+@login_required(login_url='/sitemestrado/loginpage')
+def criarnoticia(request):
+    if request.method == 'POST':
+        nome = request.POST.get('titulo')
+        conteudo = request.POST.get('conteudo')
+        priv = request.POST.get('privada')
+        if priv == 'on':
+            priv = True
+        else:
+            priv = False
+        q = Noticia(noticia_nome=nome, 
+                    noticia_conteudo=conteudo, 
+                    noticia_autor=request.user.first_name + " " + request.user.last_name, 
+                    noticia_autor_id=request.user.id,
+                    noticia_privacidade=priv,
+                    )
+        q.save()
+        return HttpResponseRedirect(reverse('sitemestrado:index'))
+    return render(request, 'sitemestrado/criarnoticia.html')
+
+def detalhenoticia(request, noticia_id):
+    noticia = get_object_or_404(Noticia, pk=noticia_id)
+    return render(request, 'sitemestrado/detalhenoticia.html',{'noticia' : noticia})

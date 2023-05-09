@@ -12,4 +12,6 @@ urlpatterns = [
     path('disciplinas', views.disciplinas, name="disciplinas"),
     path('forum', views.forum, name="forum"),
     path('infopessoal', views.infopessoal, name="infopessoal"),
+    path('criarnoticia', views.criarnoticia, name="criarnoticia"),
+    path('noticia/<int:noticia_id>', views.detalhenoticia, name="detalhenoticia"), 
 ]
