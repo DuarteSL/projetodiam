@@ -46,14 +46,15 @@ a {
     border-radius: 10px;
     border-width: 1px;
     border-style: solid;
-    border-color: lightgreen;
+    border-color: rgb(213, 206, 206);
     margin-right: 10px;
     margin-bottom: 10px;
 }
 
 .noticia-imagem img {
     width: 100%;
-    max-height: 185px; /* este max-height faz com que fique stretched portanto n sei zzz*/
+    max-height: 185px; 
+    border-radius: 10px;
 }
 
 .noticia-autor {
@@ -66,7 +67,6 @@ a {
 
 .eventos-container-right {
     flex: 1;
-    background-color: lightblue;
 }
 
 

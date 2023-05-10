@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Noticia
+from .models import Noticia, Evento
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 
@@ -14,8 +14,11 @@ from django.core.files.storage import FileSystemStorage
 
 def index(request):
     noticias_list = Noticia.objects.order_by('-noticia_data_pub')
+    eventos_list = Evento.objects.order_by('-data_do_evento')
+    three_eventos = Evento.get_next_three(eventos_list)
     context = {
-        'noticias_list' : noticias_list
+        'noticias_list' : noticias_list,
+        'three_eventos' : three_eventos 
     }
     return render(request, 'sitemestrado/index.html',context)
 

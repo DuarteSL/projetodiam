@@ -31,6 +31,11 @@ class Evento(models.Model):
 
     def __str__(self):
       return self.evento_nome
+    
+    def get_next_three(lista):
+       filtered = filter(lambda evento: evento.data_do_evento >= timezone.now(), lista)
+       return list(filtered)[:3]
+
    
 class Noticia(models.Model):
     noticia_nome = models.CharField(max_length=200)

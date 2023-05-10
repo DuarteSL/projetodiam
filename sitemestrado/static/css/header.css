@@ -95,3 +95,20 @@
 	#menu input:checked + label:before {content:"\00d7"}
 	#menu input:checked ~ ul {display:block}
 }
+
+.eventos-absolute-container {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	height: 600px;
+	width: 32%;
+
+}
+
+.eventos-list-three {
+	border-radius: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(134, 125, 125);
+	height: 89%;
+}
