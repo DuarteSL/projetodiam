@@ -47,6 +47,10 @@ class Noticia(models.Model):
        nova_imagem = Imagem(noticia=self,imagem=imagem)
        nova_imagem.save()
 
+    def adicionar_ficheiro(self,ficheiro):
+       novo_ficheiro = Ficheiro(noticia=self,ficheiro=ficheiro)
+       novo_ficheiro.save()
+
 class Disciplina(models.Model):
     disciplina_nome = models.CharField(max_length=200)
     professores = models.ManyToManyField('Professor',related_name='disciplinas', default = None)

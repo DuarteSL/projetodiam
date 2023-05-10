@@ -82,6 +82,14 @@ def criarnoticia(request):
             for f in imagens:
                 imagename = fs.save(f.name,f)
                 q.adicionar_imagem("/sitemestrado/static/media/" + imagename)
+        '''
+        if 'ficheiros' in request.FILES:
+            ficheiros = request.FILES.getlist('ficheiros')
+            fs = FileSystemStorage()
+            for f in ficheiros:
+                ficheironame = fs.save(f,f.name)
+                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame)
+        '''
         return HttpResponseRedirect(reverse('sitemestrado:index'))
     return render(request, 'sitemestrado/criarnoticia.html')
 

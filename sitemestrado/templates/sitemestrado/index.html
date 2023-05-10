@@ -51,15 +51,14 @@
                 <button class="buttons-default" onclick="window.open('criarnoticia','_self')"> Criar notícia </button>
               </div>
             </div>
-            <div class="noticias-list"> <!-- vai ter que ser grid com 2/3 colunas -->
-              <!-- Ciclo for com um noticia in noticias_list -->
+            <div class="noticias-list"> 
               {% if noticias_list %}
                 {% for noticia in noticias_list %}
                   <div class="noticia-layout">
                     <div class="noticia-imagem">
                       <a href="{% url 'sitemestrado:detalhenoticia' noticia.id %}">
                         {% if noticia.imagens.all %}
-                            <img src=" {{ noticia.imagens.all.first.imagem }}">
+                            <img src=" {{ noticia.imagens.all.last.imagem }}">
                         {% else %}
                             <img src="{% static "/imagens/defaultnoticia.png" %}">
                         {% endif %}
