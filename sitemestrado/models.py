@@ -34,7 +34,7 @@ class Evento(models.Model):
     
     def get_next_three(lista):
        filtered = filter(lambda evento: evento.data_do_evento >= timezone.now(), lista)
-       return list(filtered)[:3]
+       return list(filtered)[-3:]
 
    
 class Noticia(models.Model):

@@ -3,13 +3,15 @@
 <title> Criar nova notícia </title>
 {% endblock %}
 
+{% block eventos-list %}
+{% endblock %}
 {% block content %}
 <h2>
     {% load static %}
     <form action="{% url 'sitemestrado:criarnoticia' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
             <p>Título:  <input type="text" name="titulo"/></p>
-            <p>Conteúdo:  <input style="height:500px; width:500px; word-break:break-word; padding-bottom:35%;" type="text" name="conteudo"/> </p>
+            <p>Conteúdo:  <input style="height:500px; width:500px; word-break:break-word; padding-bottom:34%;" type="text" name="conteudo"/> </p>
             <p>Privada:   <input type="checkbox" name="privada"/></p>
             <p>Imagens:   <input type="file" name="imagens" multiple/></p>
             <!-- <p>Ficheiros:   <input type="file" name="ficheiros" multiple/></p> -->
