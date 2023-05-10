@@ -27,13 +27,23 @@ class Professor(models.Model):
 class Evento(models.Model):
     evento_nome = models.CharField(max_length=200)
     evento_conteudo = models.TextField()
-    data_do_evento = models.DateTimeField() 
+    evento_data = models.DateTimeField() 
+    evento_capa = models.TextField()
+    evento_autor = models.CharField(max_length=200)
+    evento_autor_id = models.IntegerField()
+
+    participantes_alunos = models.ManyToManyField('Aluno',related_name='participantes_alunos', default = None)
+    participantes_professores = models.ManyToManyField('Professor',related_name='participantes_professores', default = None)
 
     def __str__(self):
       return self.evento_nome
     
+    def add_capa(self,capa):
+       self.evento_capa=capa
+       self.save()
+    
     def get_next_three(lista):
-       filtered = filter(lambda evento: evento.data_do_evento >= timezone.now(), lista)
+       filtered = filter(lambda evento: evento.evento_data >= timezone.now(), lista)
        return list(filtered)[-3:]
 
    
@@ -44,9 +54,14 @@ class Noticia(models.Model):
     noticia_autor = models.CharField(max_length=200)
     noticia_autor_id = models.IntegerField()
     noticia_privacidade = models.BooleanField(default=False)
+    noticia_capa = models.TextField()
 
     def __str__(self):
       return self.noticia_nome
+    
+    def add_capa(self,capa):
+       self.noticia_capa=capa
+       self.save()
     
     def adicionar_imagem(self,imagem):
        nova_imagem = Imagem(noticia=self,imagem=imagem)

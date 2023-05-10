@@ -1,0 +1,26 @@
+{% extends "sitemestrado/index.html" %}
+{% load static %}
+
+{% block title %}
+  <title> {{ evento.evento_nome }} </title>
+{% endblock %}
+
+{% block eventos-list %}
+{% endblock %}
+
+{% block content %}
+    <h1> {{ evento.evento_nome }} </h1>
+
+    <h5> {{ evento.evento_data }} </h5>
+
+    {% if evento.evento_capa %}
+      <img src="{{ evento.evento_capa }}" width="20%">
+    {% endif %}
+    <h2> {{ evento.evento_conteudo }} <h2>
+
+    {% if evento.imagens.all %}
+      {% for imagem in evento.imagens.all %}
+        <img src="{{ imagem.imagem }}" width="20%">
+        {% endfor %}
+    {% endif %}
+{% endblock %}

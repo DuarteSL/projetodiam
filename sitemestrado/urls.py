@@ -14,4 +14,6 @@ urlpatterns = [
     path('infopessoal', views.infopessoal, name="infopessoal"),
     path('criarnoticia', views.criarnoticia, name="criarnoticia"),
     path('noticia/<int:noticia_id>', views.detalhenoticia, name="detalhenoticia"), 
+    path('adicionarevento', views.adicionarevento, name="adicionarevento"),
+    path('evento/<int:evento_id>', views.detalheevento, name="detalheevento"),
 ]

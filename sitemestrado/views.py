@@ -14,7 +14,7 @@ from django.core.files.storage import FileSystemStorage
 
 def index(request):
     noticias_list = Noticia.objects.order_by('-noticia_data_pub')
-    eventos_list = Evento.objects.order_by('-data_do_evento')
+    eventos_list = Evento.objects.order_by('-evento_data')
     three_eventos = Evento.get_next_three(eventos_list)
     context = {
         'noticias_list' : noticias_list,
@@ -50,7 +50,11 @@ def registar(request):
     return render(request, 'sitemestrado/registar.html')
 
 def eventos(request):
-    return render(request, 'sitemestrado/eventos.html')
+    eventos_list = Evento.objects.order_by('-evento_data')
+    context = {
+        'eventos_list' : eventos_list 
+    }
+    return render(request, 'sitemestrado/eventos.html',context)
 
 def infopessoal(request):
     return render(request, 'sitemestrado/infopessoal.html')
@@ -78,6 +82,11 @@ def criarnoticia(request):
                     noticia_autor_id=request.user.id,
                     noticia_privacidade=priv,
                     )
+        if 'imagem' in request.FILES:
+            imagem = request.FILES.get('imagem')
+            fs = FileSystemStorage()
+            imagename = fs.save(imagem.name,imagem)
+            q.add_capa("/sitemestrado/static/media/" + imagename)
         q.save()
         if 'imagens' in request.FILES:
             imagens = request.FILES.getlist('imagens')
@@ -99,3 +108,42 @@ def criarnoticia(request):
 def detalhenoticia(request, noticia_id):
     noticia = get_object_or_404(Noticia, pk=noticia_id)
     return render(request, 'sitemestrado/detalhenoticia.html',{'noticia' : noticia})
+
+@login_required(login_url='/sitemestrado/loginpage')
+def adicionarevento(request):
+    if request.method == 'POST':
+        nome = request.POST.get('titulo')
+        conteudo = request.POST.get('conteudo')
+        data = request.POST.get('data')
+        q = Evento(evento_nome=nome, 
+                    evento_conteudo=conteudo, 
+                    evento_data=data,
+                    evento_autor=request.user.first_name + " " + request.user.last_name, 
+                    evento_autor_id=request.user.id,
+                    )
+        if 'imagem' in request.FILES:
+            imagem = request.FILES.get('imagem')
+            fs = FileSystemStorage()
+            imagename = fs.save(imagem.name,imagem)
+            q.add_capa("/sitemestrado/static/media/" + imagename)
+        q.save()
+        if 'imagens' in request.FILES:
+            imagens = request.FILES.getlist('imagens')
+            fs = FileSystemStorage()
+            for f in imagens:
+                imagename = fs.save(f.name,f)
+                q.adicionar_imagem("/sitemestrado/static/media/" + imagename)
+        '''
+        if 'ficheiros' in request.FILES:
+            ficheiros = request.FILES.getlist('ficheiros')
+            fs = FileSystemStorage()
+            for f in ficheiros:
+                ficheironame = fs.save(f,f.name)
+                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame)
+        '''
+        return HttpResponseRedirect(reverse('sitemestrado:index'))
+    return render(request, 'sitemestrado/adicionarevento.html')
+
+def detalheevento(request, evento_id):
+    evento = get_object_or_404(Evento, pk=evento_id)
+    return render(request, 'sitemestrado/detalheevento.html',{'evento' : evento})

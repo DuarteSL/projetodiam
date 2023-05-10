@@ -1,22 +1,23 @@
 {% extends "sitemestrado/index.html" %}
 {% block title %}
-<title> Criar nova notícia </title>
+<title> Adicionar novo evento </title>
 {% endblock %}
 
 {% block eventos-list %}
 {% endblock %}
+
 {% block content %}
 <h2>
     {% load static %}
-    <form action="{% url 'sitemestrado:criarnoticia' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'sitemestrado:adicionarevento' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
             <p>Título:  <input type="text" name="titulo"/></p>
             <p>Conteúdo:  <input style="height:500px; width:500px; word-break:break-word; padding-bottom:28%;" type="text" name="conteudo"/> </p>
-            <p>Privada:   <input type="checkbox" name="privada"/></p>
+            <p>Data do Evento: <input type="datetime-local" name="data"/>
             <p>Imagem de capa:   <input type="file" name="imagem"/></p>
             <p>Imagens:   <input type="file" name="imagens" multiple/></p>
             <!-- <p>Ficheiros:   <input type="file" name="ficheiros" multiple/></p> -->
-        <input type="submit" value="Criar Notícia"/>
+        <input type="submit" value="Adicionar evento"/>
     </form>
 </h2>
 

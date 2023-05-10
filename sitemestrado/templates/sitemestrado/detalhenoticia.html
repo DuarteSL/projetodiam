@@ -11,15 +11,16 @@
 {% block content %}
     <h1> {{ noticia.noticia_nome }} </h1>
 
-    <span> {{ noticia.noticia_data_pub }} </span>
+    <h5> {{ noticia.noticia_data_pub }} </h5>
 
+    {% if noticia.noticia_capa %}
+      <img src="{{ noticia.noticia_capa }}" width="20%">
+    {% endif %}
     <h2> {{ noticia.noticia_conteudo }} <h2>
 
     {% if noticia.imagens.all %}
       {% for imagem in noticia.imagens.all %}
         <img src="{{ imagem.imagem }}" width="20%">
         {% endfor %}
-    {% else %}
-      <img src="{% static "/imagens/defaultnoticia.png" %}" width="20%">
     {% endif %}
 {% endblock %}

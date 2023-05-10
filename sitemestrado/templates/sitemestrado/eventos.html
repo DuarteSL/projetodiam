@@ -1,0 +1,38 @@
+{% extends "sitemestrado/index.html" %}
+{% load static %}
+
+{% block title %}
+  <title> Eventos </title>
+{% endblock %}
+
+{% block eventos-list %}
+{% endblock %}
+
+{% block content %}
+<h1 style="display: inline-block"> Eventos </h1> <button class="buttons-default" onclick="window.open('adicionarevento','_self')"> Adicionar evento</button>
+    {% if eventos_list %}
+      {% for evento in eventos_list %}
+        <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
+          <div class="evento-layout">
+            <div class="evento-capa">
+            {% if evento.evento_capa %}
+             <img src=" {{ evento.evento_capa }}">
+            {% else %}
+             <img src="{% static "/imagens/defaultnoticia.png" %}">
+            {% endif %}
+            </div>
+            <div class="evento-nome-and-data-container">
+              <div class="evento-nome">
+                <h3> {{ evento.evento_nome }} </h3>
+              </div>
+              <div class="evento-data">
+                {{ evento.evento_data }}
+              </div>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <h1> Não há eventos planeados </h1>
+    {% endif %}
+{% endblock %}

@@ -41,12 +41,30 @@
         {% block eventos-list %}
         <div class="eventos-absolute-container">
           <div class="eventos-title">
-            <h2> Eventos <h2>
+            <a href="{% url 'sitemestrado:eventos' %}"> <h2 style="display: inline-block"> Eventos </h2></a>
           </div>
           <div class="eventos-list-three">
             {% if three_eventos %}
              {% for evento in three_eventos %}
-               {{ evento.evento_nome }}
+             <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
+             <div class="evento-layout">
+               <div class="evento-capa">
+                {% if evento.evento_capa %}
+                  <img src=" {{ evento.evento_capa }}">
+                {% else %}
+                  <img src="{% static "/imagens/defaultnoticia.png" %}">
+                {% endif %}
+               </div>
+               <div class="evento-nome-and-data-container">
+                <div class="evento-nome">
+                  <h3> {{ evento.evento_nome }} </h3>
+                </div>
+                <div class="evento-data">
+                  {{ evento.evento_data }}
+                </div>
+               </div>
+              </div>
+            </a>
              {% endfor %}
             {% endif %}
           </div>
@@ -71,8 +89,8 @@
                   <div class="noticia-layout">
                     <div class="noticia-imagem">
                       <a href="{% url 'sitemestrado:detalhenoticia' noticia.id %}">
-                        {% if noticia.imagens.all %}
-                            <img src=" {{ noticia.imagens.all.last.imagem }}">
+                        {% if noticia.noticia_capa %}
+                            <img src=" {{ noticia.noticia_capa }}">
                         {% else %}
                             <img src="{% static "/imagens/defaultnoticia.png" %}">
                         {% endif %}
