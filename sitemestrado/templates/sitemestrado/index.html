@@ -55,13 +55,13 @@
               <!-- Ciclo for com um noticia in noticias_list -->
               {% if noticias_list %}
                 {% for noticia in noticias_list %}
-                  <div class="noticias-layout">
-                    <div class="noticias-imagem">
+                  <div class="noticia-layout">
+                    <div class="noticia-imagem">
                       <a href="{% url 'sitemestrado:detalhenoticia' noticia.id %}">
                         {% if noticia.imagens.all %}
-                            <!-- <img id="btn1" class="show2" src="{{request.user.aluno.imagem }}" height="100"> -->
+                            <img src=" {{ noticia.imagens.all.first.imagem }}">
                         {% else %}
-                            <img src="{% static "/imagens/defaultnoticia.png" %}" width="100%">
+                            <img src="{% static "/imagens/defaultnoticia.png" %}">
                         {% endif %}
                       </a>
                     </div>
@@ -75,7 +75,7 @@
                         {{ noticia.noticia_data_pub }}
                       </div>
                     </div>
-                    <div class="noticias-nome">
+                    <div class="noticia-nome">
                       <a href="{% url 'sitemestrado:detalhenoticia' noticia.id %}">
                         {{ noticia.noticia_nome }}
                       </a>

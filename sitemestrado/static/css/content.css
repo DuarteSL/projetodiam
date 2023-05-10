@@ -43,13 +43,18 @@ a {
     display: inline-block;
 }
 
-.noticias-layout {
+.noticia-layout {
     border-radius: 10px;
     border-width: 1px;
     border-style: solid;
     border-color: lightgreen;
     margin-right: 10px;
     margin-bottom: 10px;
+}
+
+.noticia-imagem img {
+    width: 100%;
+    max-height: 200px; /* este max-height faz com que fique stretched portanto n sei zzz*/
 }
 
 .noticia-autor {

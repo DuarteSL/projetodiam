@@ -43,6 +43,9 @@ class Noticia(models.Model):
     def __str__(self):
       return self.noticia_nome
     
+    def adicionar_imagem(self,imagem):
+       nova_imagem = Imagem(noticia=self,imagem=imagem)
+       nova_imagem.save()
 
 class Disciplina(models.Model):
     disciplina_nome = models.CharField(max_length=200)
@@ -79,16 +82,16 @@ class Resposta(models.Model):
    
 
 class Ficheiro(models.Model):
-    evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='ficheiros',default=None)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='ficheiros',default=None)
-    resposta = models.ForeignKey(Resposta, on_delete=models.CASCADE, related_name='ficheiros',default=None)
-    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name='ficheiros',default=None)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='ficheiros',default=None,null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='ficheiros',default=None,null=True)
+    resposta = models.ForeignKey(Resposta, on_delete=models.CASCADE, related_name='ficheiros',default=None,null=True)
+    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name='ficheiros',default=None,null=True)
     ficheiro = models.TextField()
 
 class Imagem(models.Model):
-    evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='imagens',default=None)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='imagens',default=None)
-    resposta = models.ForeignKey(Resposta, on_delete=models.CASCADE, related_name='imagens',default=None)
-    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name='imagens',default=None)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='imagens',default=None,null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='imagens',default=None,null=True)
+    resposta = models.ForeignKey(Resposta, on_delete=models.CASCADE, related_name='imagens',default=None,null=True)
+    noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name='imagens',default=None,null=True)
     imagem = models.TextField()
 

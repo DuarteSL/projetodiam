@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Noticia
 from datetime import datetime
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 
@@ -75,6 +76,12 @@ def criarnoticia(request):
                     noticia_privacidade=priv,
                     )
         q.save()
+        if 'imagens' in request.FILES:
+            imagens = request.FILES.getlist('imagens')
+            fs = FileSystemStorage()
+            for f in imagens:
+                imagename = fs.save(f.name,f)
+                q.adicionar_imagem("/sitemestrado/static/media/" + imagename)
         return HttpResponseRedirect(reverse('sitemestrado:index'))
     return render(request, 'sitemestrado/criarnoticia.html')
 

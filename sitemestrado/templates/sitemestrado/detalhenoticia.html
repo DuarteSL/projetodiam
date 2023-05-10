@@ -5,5 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  
+    {% for imagem in noticia.imagens.all %}
+      <img src="{{ imagem.imagem }}" width="20%">
+    {% endfor %}
 {% endblock %}
