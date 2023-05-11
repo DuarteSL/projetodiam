@@ -99,10 +99,9 @@
                       </a>
                     </div>
                     <div class="noticias-autor-data">
-                      <div class="noticia-autor">
+                      <div class="noticia-autor" >
+                        <a href="{% url 'sitemestrado:infooutrapessoa' noticia.noticia_autor_id %}"> {{noticia.noticia_autor}}</a>
                         <!-- href para o paginauser com o noticia.noticia_autor_id -->
-                          {{ noticia.noticia_autor }}
-
                       </div>
                       <div class="noticia-data">
                         {{ noticia.noticia_data_pub }}

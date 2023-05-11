@@ -24,13 +24,12 @@ def index(request):
 
 def infopessoal(request):
     noticias_list = Noticia.objects.order_by('-noticia_data_pub')
-    eventos_list = Evento.objects.filter(evento_autor_id=request.user.id).order_by('evento_data')
+ eventos_list = Evento.objects.filter(evento_autor_id=request.user.id).order_by('evento_data')
     context = {
          'noticias_list' : noticias_list,
          'eventos_list' : eventos_list
     }
-    return render(request, 'sitemestrado/infopessoal.html',context)
-
+    return render(request, 'sitemestrado/infopessoal.html', context)
 
 def loginpage(request):
     if request.method == 'POST':
@@ -155,3 +154,7 @@ def adicionarevento(request):
 def detalheevento(request, evento_id):
     evento = get_object_or_404(Evento, pk=evento_id)
     return render(request, 'sitemestrado/detalheevento.html',{'evento' : evento})
+
+def infooutrapessoa(request,outrapessoa_id):
+    outrapessoa = get_object_or_404(User, pk=outrapessoa_id)
+     return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : outrapessoa})

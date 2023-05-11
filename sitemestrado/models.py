@@ -8,11 +8,14 @@ class Aluno(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     imagem = models.TextField()
     is_public = models.BooleanField(default=True)
+    area_trab = models.TextField()
 
     ''' precisa de mais campos para a pagina de info pessoal'''
 
     def __str__(self):
         return self.user.username
+
+
     
 
 class Professor(models.Model):
