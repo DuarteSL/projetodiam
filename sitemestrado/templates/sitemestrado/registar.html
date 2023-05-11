@@ -4,10 +4,12 @@
     <form action="{% url 'sitemestrado:registar' %}" method="post">
         {% csrf_token %}
             <p>Username:  <input type="text" name="username"/></p>
+            <p>Nome:  <input type="text" name="nome"/></p>
+            <p>Apelido:  <input type="text" name="apelido"/></p>
+            <p>Perfil privado: <input type="checkbox" name="perfilprivado"/> </p>
             <p>E-mail:  <input type="text" name="email"/></p>
             <p>Password:  <input type="Password" name="password"/></p>
         <input type="submit" value="Registar"/>
-        
     </form>
 </h2>
 <a href="{% url 'sitemestrado:index' %}">Voltar à página inicial</a>

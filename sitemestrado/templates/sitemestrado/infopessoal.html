@@ -10,13 +10,13 @@
 
 {% block content %}
   <!-- if user aluno ig -->
-  {{request.user.aluno.imagem }}
-  <h1> Nome: {{ request.user.first_name }} {{ request.user.last_name }} </h1>
-  <h1> Username: {{ request.user.username }} </h1>
-  <h4> Email: {{ request.user.email }} </h5>
-  <!-- ns os outros campos -->
-
-<!-- ALTERADO: VIEWS.PY INFOPESSOAL(REQUEST) E INFOPESSOAL.HTML-->
+  <h1 style="display: inline-block"> Nome: {{ request.user.first_name }} {{ request.user.last_name }} </h1> <button class="buttons-default" onclick="window.open('editarinfopessoal','_self')"> Editar perfil</button>
+  <h3> Username: {{ request.user.username }} </h3>
+  <h4> Email: {{ request.user.email }} </h4>
+  {% if request.user.aluno %}
+    <h4> Área de trabalho: {{ request.user.aluno.area_trab }} </h4>
+    <h4> LinkedIn: <a style="color: -webkit-link; text-decoration: underline;" href="{{ request.user.aluno.linkedin }} target=" target="_blank"> {{ request.user.aluno.linkedin }} </a> </h4>
+  {% endif %}
 
 <!-- Temos de passar a lista já filtrada para caso exista uma lista mas ele nao estiver la nao escrever o "Eventos:"-->
 {% if eventos_list %}
@@ -43,6 +43,6 @@
         </a>
       {% endfor %}
 {% else %}
-    <h1> Não há eventos planeados </h1>
+    <h3> Ainda não participaste em nenhum evento </h3>
 {% endif %}
 {% endblock %}

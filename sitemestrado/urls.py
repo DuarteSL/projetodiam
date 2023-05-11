@@ -13,8 +13,9 @@ urlpatterns = [
     path('forum', views.forum, name="forum"),
     path('infopessoal', views.infopessoal, name="infopessoal"),
     path('criarnoticia', views.criarnoticia, name="criarnoticia"),
-    path('noticia/<int:noticia_id>', views.detalhenoticia, name="detalhenoticia"), 
+    path('noticia_<int:noticia_id>', views.detalhenoticia, name="detalhenoticia"), 
     path('adicionarevento', views.adicionarevento, name="adicionarevento"),
-    path('evento/<int:evento_id>', views.detalheevento, name="detalheevento"),
-    path('utilizador/<int:user_id>', views.infooutrapessoa, name="infooutrapessoa")
+    path('evento_<int:evento_id>', views.detalheevento, name="detalheevento"),
+    path('utilizador_<int:outrapessoa_id>', views.infooutrapessoa, name="infooutrapessoa"),
+    path('editarinfopessoal', views.editarinfopessoal, name="editarinfopessoal"),
 ]

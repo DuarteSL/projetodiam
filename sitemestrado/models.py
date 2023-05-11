@@ -7,25 +7,23 @@ from django.utils import timezone
 class Aluno(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     imagem = models.TextField()
-    is_public = models.BooleanField(default=True)
+    is_privado = models.BooleanField(default=False)
     area_trab = models.TextField()
-
-    ''' precisa de mais campos para a pagina de info pessoal'''
+    linkedin = models.TextField()
 
     def __str__(self):
         return self.user.username
 
-
-    
 
 class Professor(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     imagem = models.TextField()
-    is_public = models.BooleanField(default=True)
+    area_trab = models.TextField()
+    linkedin = models.TextField()
 
     def __str__(self):
         return self.user.username
-    
+  
 
 class Evento(models.Model):
     evento_nome = models.CharField(max_length=200)

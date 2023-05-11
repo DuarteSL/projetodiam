@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Noticia, Evento
+from .models import Aluno, Noticia, Evento
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 
@@ -16,15 +16,17 @@ def index(request):
     noticias_list = Noticia.objects.order_by('-noticia_data_pub')
     eventos_list = Evento.objects.order_by('-evento_data')
     three_eventos = Evento.get_next_three(eventos_list)
+    users_list = User.objects.all()
     context = {
         'noticias_list' : noticias_list,
-        'three_eventos' : three_eventos 
+        'three_eventos' : three_eventos,
+        'users_list' : users_list 
     }
     return render(request, 'sitemestrado/index.html',context)
 
 def infopessoal(request):
     noticias_list = Noticia.objects.order_by('-noticia_data_pub')
- eventos_list = Evento.objects.filter(evento_autor_id=request.user.id).order_by('evento_data')
+    eventos_list = Evento.objects.filter(evento_autor_id=request.user.id).order_by('evento_data')
     context = {
          'noticias_list' : noticias_list,
          'eventos_list' : eventos_list
@@ -50,10 +52,19 @@ def logoutpage(request):
 def registar(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        nome = request.POST.get('nome')
+        apelido = request.POST.get('apelido')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        u = User.objects.create_user(username, email, password)
+        privado = request.POST.get('perfilprivado')
+        if privado == 'on':
+            privado = True
+        else:
+            privado = False
+        u = User.objects.create_user(username, email, password, first_name = nome, last_name= apelido)
         u.save()
+        aluno = Aluno(user=u, is_privado=privado)
+        aluno.save()
         return HttpResponseRedirect(reverse('sitemestrado:loginpage'))
     return render(request, 'sitemestrado/registar.html')
 
@@ -157,4 +168,7 @@ def detalheevento(request, evento_id):
 
 def infooutrapessoa(request,outrapessoa_id):
     outrapessoa = get_object_or_404(User, pk=outrapessoa_id)
-     return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : outrapessoa})
+    return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : outrapessoa})
+
+def editarinfopessoal(request):
+    return render(request, 'sitemestrado/editarinfopessoal.html')
