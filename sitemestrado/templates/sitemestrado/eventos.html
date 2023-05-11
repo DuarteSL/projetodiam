@@ -9,7 +9,10 @@
 {% endblock %}
 
 {% block content %}
-<h1 style="display: inline-block"> Eventos </h1> <button class="buttons-default" onclick="window.open('adicionarevento','_self')"> Adicionar evento</button>
+<div class="noticias-title-and-button">
+<h2 style="display: inline-block"> Eventos </h2> <button class="buttons-default" onclick="window.open('adicionarevento','_self')"> Adicionar evento</button>
+</div>
+<div style="padding-top: 67px">
     {% if eventos_list %}
       {% for evento in eventos_list %}
         <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
@@ -35,4 +38,6 @@
     {% else %}
       <h1> Não há eventos planeados </h1>
     {% endif %}
+      </div>
 {% endblock %}
+

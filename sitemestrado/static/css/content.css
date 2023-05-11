@@ -32,6 +32,9 @@ a {
 .noticias-title-and-button {
     position: fixed;
     height: 67px;
+    z-index: 2;
+    width: 88%;
+    background-color: white;
 }
 
 .noticias-title {

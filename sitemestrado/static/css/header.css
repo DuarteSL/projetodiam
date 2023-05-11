@@ -1,6 +1,7 @@
 .menu {
 	position: fixed;
 	width: 88%;
+	z-index: 2;
 }
 
 #menu {
@@ -102,15 +103,21 @@
 	right: 0;
 	height: 600px;
 	width: 32%;
-
+	z-index: 300;
 }
 
 .eventos-list-three {
+	margin-top: 67px;
 	border-radius: 8px;
   border-width: 2px;
   border-style: solid;
   border-color: rgb(134, 125, 125);
 	height: 89%;
+}
+
+.eventos-title {
+	float: right;
+	padding-right: 27.2%;
 }
 
 .evento-layout {
@@ -137,4 +144,14 @@
 
 .evento-nome-and-data-container {
 	display: inline-block;
+}
+
+.scroll-white-top {
+	position: fixed;
+	background-color: white;
+	z-index: 1;
+	top: 0;
+	right: 6%;
+	left: 6%;
+	height: 14%;
 }

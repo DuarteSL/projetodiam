@@ -9,7 +9,7 @@
         {% endblock%}
     </head>
     <body>
-      <div class="login-container" style="position: fixed; top:0; right:0;" >
+      <div class="login-container" style="position: fixed; top:0; right:0; z-index:5" >
           {% if request.user.is_authenticated %}
                     <div style="display: inline-block"> 
                       {{ user.get_username }} 
@@ -21,6 +21,8 @@
                     <button class="buttons-default" onclick="window.open('loginpage','_self')"> Login</button>
                     <button class="buttons-default" onclick="window.open('registar','_self')"> Registar </button>
                 {% endif %}
+      </div>
+      <div class="scroll-white-top">
       </div>
       <header class="menu">
         <nav id='menu'>
@@ -40,9 +42,6 @@
         </nav>
         {% block eventos-list %}
         <div class="eventos-absolute-container">
-          <div class="eventos-title">
-            <a href="{% url 'sitemestrado:eventos' %}"> <h2 style="display: inline-block"> Eventos </h2></a>
-          </div>
           <div class="eventos-list-three">
             {% if three_eventos %}
              {% for evento in three_eventos %}
@@ -77,11 +76,14 @@
           <div class="noticias-container-left">
             <div class="noticias-title-and-button">
               <div class="noticias-title">
-                <h2> Notícias <h2>
-              </div>  
+                <h2> Notícias <h2> 
+              </div>    
               <div class="noticias-add-button">
                 <button class="buttons-default" onclick="window.open('criarnoticia','_self')"> Criar notícia </button>
               </div>
+              <div class="eventos-title">
+                <a href="{% url 'sitemestrado:eventos' %}"> <h2 style="display: inline-block;"> Eventos </h2></a>
+              </div> 
             </div>
             <div class="noticias-list"> 
               {% if noticias_list %}

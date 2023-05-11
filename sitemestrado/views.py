@@ -24,12 +24,12 @@ def index(request):
 
 def infopessoal(request):
     noticias_list = Noticia.objects.order_by('-noticia_data_pub')
-    eventos_list = Evento.objects.filter(request.user.id=evento.autor_id)
+    eventos_list = Evento.objects.filter(evento_autor_id=request.user.id).order_by('evento_data')
     context = {
          'noticias_list' : noticias_list,
          'eventos_list' : eventos_list
     }
-    return render(request, 'sitemestrado/infopessoal.html')
+    return render(request, 'sitemestrado/infopessoal.html',context)
 
 
 def loginpage(request):

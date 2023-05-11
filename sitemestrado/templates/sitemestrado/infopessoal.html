@@ -1,83 +1,48 @@
+{% extends "sitemestrado/index.html" %}
 {% block title %}
 <title> Informações Pessoais </title>
 {% endblock %}
+
+{% load static %}
 
 {% block eventos-list %}
 {% endblock %}
 
 {% block content %}
-<!-- if user aluno ig -->
-{{user.aluno.imagem}}
-<h1> Nome: {{ user.nome}} </h1>
-<h1> UserName: {{ user.UserName}} </h1>
-<h5> Email{{ user.email }} </h5>
-<!-- ns os outros campos -->
+  <!-- if user aluno ig -->
+  {{request.user.aluno.imagem }}
+  <h1> Nome: {{ request.user.first_name }} {{ request.user.last_name }} </h1>
+  <h1> Username: {{ request.user.username }} </h1>
+  <h4> Email: {{ request.user.email }} </h5>
+  <!-- ns os outros campos -->
 
 <!-- ALTERADO: VIEWS.PY INFOPESSOAL(REQUEST) E INFOPESSOAL.HTML-->
 
 <!-- Temos de passar a lista já filtrada para caso exista uma lista mas ele nao estiver la nao escrever o "Eventos:"-->
 {% if eventos_list %}
-<h2>Eventos:</h2>
-{% for evento in evento_list %} 
-<!-- ns se isto funciona ou temos de ver com o id, chatgpt aproved -->
-{% if user.aluno.participantes_alunos.filter(id=evento.id).exists %}
-   <!-- {% if user in evento.participantes_alunos.all %} outratentativa do if de cima-->
-    <div class="evento-layout">
-        <div class="evento-capa">
-         {% if evento.evento_capa %}
-           <img src=" {{ evento.evento_capa }}">
-         {% else %}
-           <img src="{% static "/imagens/defaultnoticia.png" %}">
-         {% endif %}
-        </div>
-        <div class="evento-nome-and-data-container">
-         <div class="evento-nome">
-           <h3> {{ evento.evento_nome }} </h3>
-         </div>
-         <div class="evento-data">
-           {{ evento.evento_data }}
-         </div>
-        </div>
-    </div>
-    {% endif %}
-{% endfor %}
-
-{% if noticias_list %}
-<h2>Noticias: </h2>
-{% for noticia in noticia_list %} 
-    <!-- como n ta feita uma relacao de 1 para 1 com a noticia e o ALUNO/PROFESSOR :-->
-    {if noticia.autor_id == user.id}{
-        <div class="noticia-layout">
-            <div class="noticia-imagem">
-              <a href="{% url 'sitemestrado:detalhenoticia' noticia.id %}">
-                {% if noticia.noticia_capa %}
-                    <img src=" {{ noticia.noticia_capa }}">
-                {% else %}
-                    <img src="{% static "/imagens/defaultnoticia.png" %}">
-                {% endif %}
-              </a>
+<h1> Eventos: </h1>
+      {% for evento in eventos_list %}
+        <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
+          <div class="evento-layout">
+            <div class="evento-capa">
+            {% if evento.evento_capa %}
+             <img src=" {{ evento.evento_capa }}">
+            {% else %}
+             <img src="{% static "/imagens/defaultnoticia.png" %}">
+            {% endif %}
             </div>
-            <div class="noticias-autor-data">
-              <div class="noticia-autor">
-                <!-- href para o paginauser com o noticia.noticia_autor_id -->
-                  {{ noticia.noticia_autor }}
-
+            <div class="evento-nome-and-data-container">
+              <div class="evento-nome">
+                <h3> {{ evento.evento_nome }} </h3>
               </div>
-              <div class="noticia-data">
-                {{ noticia.noticia_data_pub }}
+              <div class="evento-data">
+                {{ evento.evento_data }}
               </div>
-            </div>
-            <div class="noticia-nome">
-              <a href="{% url 'sitemestrado:detalhenoticia' noticia.id %}">
-                {{ noticia.noticia_nome }}
-              </a>
             </div>
           </div>
-    }
-   
-
-
-
-
-
-{%endblock}
+        </a>
+      {% endfor %}
+{% else %}
+    <h1> Não há eventos planeados </h1>
+{% endif %}
+{% endblock %}

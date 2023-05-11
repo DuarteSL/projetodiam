@@ -9,8 +9,11 @@
 {% endblock %}
 
 {% block content %}
+<div class="noticias-title-and-button">
     <h1> {{ evento.evento_nome }} </h1>
+</div>
 
+<div style="padding-top: 67px">
     <h5> {{ evento.evento_data }} </h5>
 
     {% if evento.evento_capa %}
@@ -23,4 +26,5 @@
         <img src="{{ imagem.imagem }}" width="20%">
         {% endfor %}
     {% endif %}
+</div>
 {% endblock %}
