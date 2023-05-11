@@ -22,6 +22,15 @@ def index(request):
     }
     return render(request, 'sitemestrado/index.html',context)
 
+def infopessoal(request):
+    noticias_list = Noticia.objects.order_by('-noticia_data_pub')
+    eventos_list = Evento.objects.filter(request.user.id=evento.autor_id)
+    context = {
+         'noticias_list' : noticias_list,
+         'eventos_list' : eventos_list
+    }
+    return render(request, 'sitemestrado/infopessoal.html')
+
 
 def loginpage(request):
     if request.method == 'POST':
@@ -56,8 +65,7 @@ def eventos(request):
     }
     return render(request, 'sitemestrado/eventos.html',context)
 
-def infopessoal(request):
-    return render(request, 'sitemestrado/infopessoal.html')
+
 
 def disciplinas(request):
     return render(request, 'sitemestrado/disciplinas.html')
