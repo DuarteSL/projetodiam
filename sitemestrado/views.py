@@ -168,6 +168,7 @@ def adicionarevento(request):
 
 def detalheevento(request, evento_id):
     evento = get_object_or_404(Evento, pk=evento_id)
+    inscrito = Evento.isInscrito(evento,request.user)
     if request.method == 'POST':
         if request.user.aluno:
             if evento.participantes_alunos.contains(request.user.aluno):
@@ -180,7 +181,7 @@ def detalheevento(request, evento_id):
             else:
                 evento.add_inscrito(request.user)
         return HttpResponseRedirect(reverse('sitemestrado:detalheevento',args=[evento_id]))
-    return render(request, 'sitemestrado/detalheevento.html',{'evento' : evento})
+    return render(request, 'sitemestrado/detalheevento.html',{'evento' : evento, 'inscrito': inscrito})
 
 def infooutrapessoa(request,outrapessoa_id):
     outrapessoa = get_object_or_404(User, pk=outrapessoa_id)

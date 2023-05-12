@@ -70,8 +70,11 @@ class Evento(models.Model):
        filtered = filter(lambda evento: evento.evento_data >= timezone.now(), lista)
        return list(filtered)[-3:]
 
-      def isInscrito(request,self):
-       return evento.participantes_alunos.filter(id=request.user.id).exists()
+    def isInscrito(self,user):
+       if user.aluno:
+         return self.participantes_alunos.contains(user.aluno) 
+       else:
+         return self.participantes_professores.contains(user.professor)
          
 
    
