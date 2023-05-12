@@ -29,6 +29,7 @@ class Evento(models.Model):
     evento_nome = models.CharField(max_length=200)
     evento_conteudo = models.TextField()
     evento_data = models.DateTimeField() 
+    evento_local = models.CharField(max_length=200)
     evento_capa = models.TextField()
     evento_autor = models.CharField(max_length=200)
     evento_autor_id = models.IntegerField()
@@ -84,12 +85,17 @@ class Disciplina(models.Model):
 class Post(models.Model):
     post_nome = models.CharField(max_length=200)
     post_conteudo = models.TextField()
+    post_capa = models.TextField()
     post_autor = models.CharField(max_length=200)
     post_autor_id = models.IntegerField()
     post_data_pub = models.DateTimeField(default=timezone.now)
     referencia_youtube = models.TextField()
 
-    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, default = None)
+    disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, default = None, null=True)
+
+    def add_capa(self,capa):
+       self.post_capa=capa
+       self.save()
 
     def __str__(self):
       return self.post_nome

@@ -25,12 +25,9 @@
             {% endif %}
             </div>
             <div class="evento-nome-and-data-container">
-              <div class="evento-nome">
-                <h3> {{ evento.evento_nome }} </h3>
-              </div>
-              <div class="evento-data">
-                {{ evento.evento_data }}
-              </div>
+              <h5 style="margin:0"> {{ evento.evento_data }} </h5>
+              <h3> {{ evento.evento_nome }} </h3>
+              <h4 style="margin:0"> {{ evento.evento_local }} </h4>
             </div>
           </div>
         </a>

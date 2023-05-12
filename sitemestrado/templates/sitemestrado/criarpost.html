@@ -1,0 +1,24 @@
+{% extends "sitemestrado/index.html" %}
+{% block title %}
+<title> Criar novo post </title>
+{% endblock %}
+
+{% block eventos-list %}
+{% endblock %}
+
+{% block content %}
+<h2>
+    {% load static %}
+    <form action="{% url 'sitemestrado:criarpost' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <p>Título:  <input type="text" name="titulo"/></p>
+            <p>Conteúdo:  <input style="height:500px; width:500px; word-break:break-word; padding-bottom:28%;" type="text" name="conteudo"/> </p>
+            <p>Referência dum vídeo do Youtube:  <input type="text" name="referenciayoutube"/></p>
+            <p>Imagem de capa:   <input type="file" name="imagem"/></p>
+            <p>Imagens:   <input type="file" name="imagens" multiple/></p>
+            <!-- <p>Ficheiros:   <input type="file" name="ficheiros" multiple/></p> -->
+        <input type="submit" value="Criar Post"/>
+    </form>
+</h2>
+
+{% endblock %}

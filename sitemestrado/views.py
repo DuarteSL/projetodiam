@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Aluno, Noticia, Evento
+from .models import Aluno, Noticia, Evento, Post
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 
@@ -82,7 +82,11 @@ def disciplinas(request):
 
 @login_required(login_url='/sitemestrado/loginpage')
 def forum(request):
-    return render(request, 'sitemestrado/forum.html')
+    post_list = Post.objects.order_by('-post_data_pub')
+    context = {
+        'post_list' : post_list
+    }
+    return render(request, 'sitemestrado/forum.html',context)
 
 @login_required(login_url='/sitemestrado/loginpage')
 def criarnoticia(request):
@@ -172,3 +176,37 @@ def infooutrapessoa(request,outrapessoa_id):
 
 def editarinfopessoal(request):
     return render(request, 'sitemestrado/editarinfopessoal.html')
+
+def criarpost(request):
+    if request.method == 'POST':
+        nome = request.POST.get('titulo')
+        conteudo = request.POST.get('conteudo')
+        referenciayoutube = request.POST.get('referenciayoutube')
+        q = Post(post_nome=nome, 
+                    post_conteudo=conteudo, 
+                    referencia_youtube = referenciayoutube,
+                    post_autor=request.user.first_name + " " + request.user.last_name, 
+                    post_autor_id=request.user.id,
+                    )
+        if 'imagem' in request.FILES:
+            imagem = request.FILES.get('imagem')
+            fs = FileSystemStorage()
+            imagename = fs.save(imagem.name,imagem)
+            q.add_capa("/sitemestrado/static/media/" + imagename)
+        q.save()
+        if 'imagens' in request.FILES:
+            imagens = request.FILES.getlist('imagens')
+            fs = FileSystemStorage()
+            for f in imagens:
+                imagename = fs.save(f.name,f)
+                q.adicionar_imagem("/sitemestrado/static/media/" + imagename)
+        '''
+        if 'ficheiros' in request.FILES:
+            ficheiros = request.FILES.getlist('ficheiros')
+            fs = FileSystemStorage()
+            for f in ficheiros:
+                ficheironame = fs.save(f,f.name)
+                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame)
+        '''
+        return HttpResponseRedirect(reverse('sitemestrado:index'))
+    return render(request, 'sitemestrado/criarpost.html')

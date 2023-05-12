@@ -148,7 +148,7 @@
 
 .scroll-white-top {
 	position: fixed;
-	background-color: white;
+	background-color: rgb(199, 211, 216);
 	z-index: 1;
 	top: 0;
 	right: 6%;
