@@ -253,3 +253,4 @@ def detalhepost(request,post_id):
         post.add_resposta()
         return HttpResponseRedirect(reverse('sitemestrado:detalhepost',args=[post_id]))
     return render(request, 'sitemestrado/detalhepost.html',{'post' : post})
+

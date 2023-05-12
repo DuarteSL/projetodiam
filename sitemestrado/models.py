@@ -70,6 +70,10 @@ class Evento(models.Model):
        filtered = filter(lambda evento: evento.evento_data >= timezone.now(), lista)
        return list(filtered)[-3:]
 
+      def isInscrito(request,self):
+       return evento.participantes_alunos.filter(id=request.user.id).exists()
+         
+
    
 class Noticia(models.Model):
     noticia_nome = models.CharField(max_length=200)

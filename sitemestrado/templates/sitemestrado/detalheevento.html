@@ -25,8 +25,13 @@
       {% if evento.is_past_due %}
         <form action="{% url 'sitemestrado:detalheevento' evento.id %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
+          {% if isInscrito(request.user_id) %}
               <input style="display: none" type="checkbox" name="inscr"/>
           <input type="submit" value="Inscrever"/>
+          {% else %}
+          <input style="display: none" type="checkbox" name="desinscr"/>
+          <input type="submit" value="Desinscrever"/>
+          { %endif% }
         </form>
       {% endif %}
     {% endif %}
