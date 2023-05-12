@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -52,7 +53,7 @@ class Evento(models.Model):
 class Noticia(models.Model):
     noticia_nome = models.CharField(max_length=200)
     noticia_conteudo = models.TextField()
-    noticia_data_pub = models.DateTimeField(default=timezone.now)
+    noticia_data_pub = models.DateTimeField(default=datetime.now())
     noticia_autor = models.CharField(max_length=200)
     noticia_autor_id = models.IntegerField()
     noticia_privacidade = models.BooleanField(default=False)
@@ -88,7 +89,7 @@ class Post(models.Model):
     post_capa = models.TextField()
     post_autor = models.CharField(max_length=200)
     post_autor_id = models.IntegerField()
-    post_data_pub = models.DateTimeField(default=timezone.now)
+    post_data_pub = models.DateTimeField(default=datetime.now())
     referencia_youtube = models.TextField()
 
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, default = None, null=True)
@@ -106,7 +107,7 @@ class Resposta(models.Model):
    resposta_autor = models.CharField(max_length=200)
    resposta_autor_id = models.IntegerField()
    resposta_conteudo = models.TextField()
-   resposta_data_pub = models.DateTimeField(default=timezone.now)
+   resposta_data_pub = models.DateTimeField(default=datetime.now())
 
    def __str__(self):
       return self.resposta_conteudo
