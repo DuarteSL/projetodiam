@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1> {{ noticia.noticia_nome }} </h1>
+    <h2> {{ noticia.noticia_nome }} </h2>
 
     <div class="noticia-autor" >
       <h3> <a href="{% url 'sitemestrado:infooutrapessoa' noticia.noticia_autor_id %}"> {{noticia.noticia_autor}}</a> </h3>
@@ -27,4 +27,7 @@
         <img src="{{ imagem.imagem }}" width="20%">
         {% endfor %}
     {% endif %}
+{% endblock %}
+
+{% block searchbar %}
 {% endblock %}

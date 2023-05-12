@@ -101,7 +101,7 @@
 	position: absolute;
 	top: 100%;
 	right: 0;
-	height: 600px;
+	height: 1500%;
 	width: 32%;
 	z-index: 300;
 }
@@ -144,6 +144,13 @@
 
 .evento-nome-and-data-container {
 	display: inline-block;
+}
+
+.searchbar-container {
+	position: absolute;
+	top: 20%;
+	right: 0;
+	height: 50%;
 }
 
 .scroll-white-top {

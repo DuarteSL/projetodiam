@@ -5,6 +5,10 @@
   <title> Fórum </title>
 {% endblock %}
 
+{% block searchbar %}
+<!-- aquiiiiiiiiiiiiiiiiiiiiiiiiiii-->
+{% endblock %}
+
 {% block eventos-list %}
 {% endblock %}
 
@@ -16,17 +20,21 @@
     {% if post_list %}
       {% for post in post_list %}
           <div class="post-layout">
+            <a href="{% url 'sitemestrado:detalhepost' post.id %}">
             <div class="post-capa">
             {% if post.post_capa %}
              <img src=" {{ post.post_capa }}">
             {% else %}
              <img src="{% static "/imagens/defaultnoticia.png" %}">
             {% endif %}
+            </a>
             </div>
             <div class="post-container">
               <div class="post-nome-e-autor">
+                <a href="{% url 'sitemestrado:detalhepost' post.id %}">
                 <h1 style="margin: 0"> {{ post.post_nome }} </h1>
-                <h3 style="margin-top:0"> Publicado por {{ post.post_autor }} </h3>
+                </a>
+                <h3 style="margin-top:0"> Publicado por <a href="{% url 'sitemestrado:infooutrapessoa' post.post_autor_id %}">{{ post.post_autor }} </a> </h3>
               </div>
               <div class="post-data">
                 Data de publicação: {{ post.post_data_pub }}
@@ -34,10 +42,8 @@
               <div class="post-conteudo">
                 Texto: {{ post.post_conteudo }}
               </div>
-              {% if post.referencia_youtube %}
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ post.referencia_youtube }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-              {% endif %}
               <div class="post-nr-respostas">
+                Número de respostas: {{ post.post_nr_respostas }}
               </div>
             </div>
           </div>

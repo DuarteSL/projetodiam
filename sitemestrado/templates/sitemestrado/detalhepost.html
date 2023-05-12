@@ -1,0 +1,62 @@
+{% extends "sitemestrado/index.html" %}
+{% load static %}
+
+{% block title %}
+  <title> {{ post.post_nome }} </title>
+{% endblock %}
+
+{% block eventos-list %}
+{% endblock %}
+
+{% block content %}
+<div class="noticias-title-and-button">
+    <h2 style="display:inline-block;"> {{ post.post_nome }} - <h3 style="margin-top:0; display:inline-block;"> publicado por <a href="{% url 'sitemestrado:infooutrapessoa' post.post_autor_id %}">{{ post.post_autor }} </a> </h3></h2> 
+</div>
+
+<div style="padding-top: 67px">
+  <div class="post-layout">
+    <div class="post-capa">
+    {% if post.post_capa %}
+     <img src=" {{ post.post_capa }}">
+    {% else %}
+     <img src="{% static "/imagens/defaultnoticia.png" %}">
+    {% endif %}
+    </div>
+    <div class="post-container">
+      <div class="post-data">
+        Data de publicação: {{ post.post_data_pub }}
+      </div>
+      <div class="post-conteudo">
+        Texto: {{ post.post_conteudo }}
+      </div>
+      {% if post.referencia_youtube %}
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ post.referencia_youtube }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      {% endif %}
+      <div class="post-nr-respostas">
+      </div>
+    </div>
+  </div>
+  <div class="form-container">
+    <form action="{% url 'sitemestrado:detalhepost' post.id %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+          <p>Resposta:  <input type="text" name="resposta"/></p>
+      <input type="submit" value="Criar resposta"/>
+  </form>
+  </div>
+  <div class="respostas-container">
+    {% for resposta in post.resposta_set.all %}
+      <div class="resposta-layout">
+        <div class="resposta-header">
+          <h4 style="margin:0"> {{ resposta.resposta_autor }} | {{ resposta.resposta_data_pub }} </h4>
+        </div>
+        <div class="resposta-conteudo"> 
+          Resposta: {{ resposta.resposta_conteudo }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block searchbar %}
+{% endblock %}

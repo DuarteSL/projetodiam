@@ -1,3 +1,13 @@
+{% extends "sitemestrado/index.html" %}
+
+{% block title %}
+  <title> Resultado da pesquisa </title>
+{% endblock %}
+
+{% block eventos-list %}
+{% endblock %}
+
+{% block content %}
 {%if searched %}
 <h1> You Search For {{searched}}</h1>
 {% for evento in lista_eventos %}
@@ -22,3 +32,7 @@
 {%else%}
     <h1>No Search</h1>
 {%endif%}
+{% endblock %}
+
+{% block searchbar %}
+{% endblock %}

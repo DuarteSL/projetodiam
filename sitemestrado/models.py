@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -34,6 +34,7 @@ class Evento(models.Model):
     evento_capa = models.TextField()
     evento_autor = models.CharField(max_length=200)
     evento_autor_id = models.IntegerField()
+    evento_nr_inscritos = models.IntegerField(default=0)
 
     participantes_alunos = models.ManyToManyField('Aluno',related_name='participantes_alunos', default = None)
     participantes_professores = models.ManyToManyField('Professor',related_name='participantes_professores', default = None)
@@ -43,6 +44,26 @@ class Evento(models.Model):
     
     def add_capa(self,capa):
        self.evento_capa=capa
+       self.save()
+
+    @property
+    def is_past_due(self):
+       return timezone.now() < self.evento_data
+   
+    def add_inscrito(self,user):
+       if user.aluno:
+          self.participantes_alunos.add(user.aluno)
+       else:
+          self.participantes_professores.add(user.professor)
+       self.evento_nr_inscritos += 1
+       self.save()
+
+    def remove_inscrito(self,user):
+       if user.aluno:
+          self.participantes_alunos.remove(user.aluno)
+       else:
+          self.participantes_professores.remove(user.professor)
+       self.evento_nr_inscritos -= 1
        self.save()
     
     def get_next_three(lista):
@@ -91,11 +112,16 @@ class Post(models.Model):
     post_autor_id = models.IntegerField()
     post_data_pub = models.DateTimeField(default=datetime.now())
     referencia_youtube = models.TextField()
+    post_nr_respostas = models.IntegerField(default=0)
 
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, default = None, null=True)
 
     def add_capa(self,capa):
        self.post_capa=capa
+       self.save()
+
+    def add_resposta(self):
+       self.post_nr_respostas += 1
        self.save()
 
     def __str__(self):

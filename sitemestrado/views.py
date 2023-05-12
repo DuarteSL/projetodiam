@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Aluno, Noticia, Evento, Post
+from .models import Aluno, Noticia, Evento, Post, Professor, Resposta
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 
@@ -168,6 +168,18 @@ def adicionarevento(request):
 
 def detalheevento(request, evento_id):
     evento = get_object_or_404(Evento, pk=evento_id)
+    if request.method == 'POST':
+        if request.user.aluno:
+            if evento.participantes_alunos.contains(request.user.aluno):
+                evento.remove_inscrito(request.user)
+            else:
+                evento.add_inscrito(request.user)
+        else:
+            if evento.participantes_professores.contains(request.user.professor):
+                evento.remove_inscrito(request.user)
+            else:
+                evento.add_inscrito(request.user)
+        return HttpResponseRedirect(reverse('sitemestrado:detalheevento',args=[evento_id]))
     return render(request, 'sitemestrado/detalheevento.html',{'evento' : evento})
 
 def infooutrapessoa(request,outrapessoa_id):
@@ -214,11 +226,10 @@ def criarpost(request):
 def searchuser(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
-        listauser =User.objects.filter(first_name__contains=searched)|User.objects.filter(last_name__contains=searched)
-        """listadisciplinas = Disciplina.objects.filter(disciplina_nome__contains=searched)"""
+        listauser =User.objects.filter(first_name__contains=searched)| User.objects.filter(last_name__contains=searched) 
+        #| User.objects.filter(area_trab__contains=searched) | Professor.objects.filter(area_trab__contains=searched)
         return render(request, 'sitemestrado/searchuser.html',{'searched':searched,'listausers':listauser})  
-    else:
-            return render(request, 'sitemestrado/searchuser.html')      
+    return render(request, 'sitemestrado/searchuser.html')      
 
 
 def searcheventos(request):
@@ -226,5 +237,19 @@ def searcheventos(request):
         searched = request.POST.get("searched")
         lista =Evento.objects.filter(evento_nome__contains=searched)
         return render(request, 'sitemestrado/searcheventos.html',{'searched':searched,'lista_eventos':lista})  
-    else:
-            return render(request, 'sitemestrado/searcheventos.html')                  
+    return render(request, 'sitemestrado/searcheventos.html')   
+
+
+def detalhepost(request,post_id):
+    post = get_object_or_404(Post,pk=post_id)
+    if request.method == "POST":
+        resposta = request.POST.get('resposta')
+        q = Resposta(post=post,
+                     resposta_autor = request.user.first_name + " " + request.user.last_name, 
+                     resposta_autor_id = request.user.id,
+                     resposta_conteudo = resposta
+                     )
+        q.save()
+        post.add_resposta()
+        return HttpResponseRedirect(reverse('sitemestrado:detalhepost',args=[post_id]))
+    return render(request, 'sitemestrado/detalhepost.html',{'post' : post})

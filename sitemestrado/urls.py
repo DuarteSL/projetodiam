@@ -21,4 +21,5 @@ urlpatterns = [
     path('criarpost', views.criarpost, name="criarpost"),
     path('searchuser',views.searchuser, name="searchuser"),
     path('searcheventos',views.searcheventos, name="searcheventos"),
+    path('post_<int:post_id>', views.detalhepost, name="detalhepost"),
 ]

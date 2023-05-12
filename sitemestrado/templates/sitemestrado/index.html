@@ -22,13 +22,6 @@
                     <button class="buttons-default" onclick="window.open('loginpage','_self')"> Login</button>
                     <button class="buttons-default" onclick="window.open('registar','_self')"> Registar </button>
                 {% endif %}
-                {%block searchbar%}
-                <form class='search-form' method=POST action ="{% url 'sitemestrado:searchuser' %}">
-                  {% csrf_token %}
-                 <input type='search' placeholder='Search' name ="searched">
-                 <button class'search-btn' type='submit'>Search</button>
-               </form>   
-               {%endblock%}
       </div>
       <div class="scroll-white-top">
       </div>
@@ -38,13 +31,7 @@
             <li><a href="{% url 'sitemestrado:index' %}">Página Inicial</a></li>
             <li><a href="{% url 'sitemestrado:forum' %}">Fórum</a></li>
             <li><a href="{% url 'sitemestrado:eventos' %}">Eventos</a></li>
-            <li><a class='dropdown-arrow' href="{% url 'sitemestrado:disciplinas' %}">Disciplinas</a>
-              <ul class='sub-menus'>
-                <li><a href='http://'>Disciplina 1</a></li>
-                <li><a href='http://'>Disciplina 2</a></li>
-                <li><a href='http://'>Disciplina 3</a></li>
-              </ul>
-            </li>
+            <li><a href="{% url 'sitemestrado:disciplinas' %}">Disciplinas</a></li>
             {% if request.user.is_authenticated %}
             <li><a href="{% url 'sitemestrado:infopessoal' %}">Informações Pessoais</a></li>
             {% endif %}
@@ -76,6 +63,15 @@
           </div>
         </div>
         {% endblock %}
+        <div class="searchbar-container">
+          {%block searchbar%}
+          <form class='search-form' method=POST action ="{% url 'sitemestrado:searchuser' %}">
+            {% csrf_token %}
+            <input style="height:25px" type='search' placeholder='Search' name ="searched">
+          <button class'search-btn' type='submit'>Search</button>
+          </form>   
+          {%endblock%}
+        </div>
       </header>
       <div class="body-container">
         {% block content %}
