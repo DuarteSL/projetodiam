@@ -19,4 +19,5 @@ urlpatterns = [
     path('utilizador_<int:outrapessoa_id>', views.infooutrapessoa, name="infooutrapessoa"),
     path('editarinfopessoal', views.editarinfopessoal, name="editarinfopessoal"),
     path('criarpost', views.criarpost, name="criarpost"),
+    path('searchuser',views.searchuser, name="searchuser"),
 ]

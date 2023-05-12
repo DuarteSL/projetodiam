@@ -210,3 +210,11 @@ def criarpost(request):
         '''
         return HttpResponseRedirect(reverse('sitemestrado:index'))
     return render(request, 'sitemestrado/criarpost.html')
+
+def searchuser(request):
+    if request.method == "POST":
+        searched = request.POST.get("searched")
+        lista =User.objects.filter(first_name__contains=searched)
+        return render(request, 'sitemestrado/searchuser.html',{'searched':searched,'listausers':lista})  
+    else:
+            return render(request, 'sitemestrado/searchuser.html',{'searched':'nao funciona'})      
