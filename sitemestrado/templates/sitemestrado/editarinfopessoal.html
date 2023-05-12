@@ -1,5 +1,7 @@
 {% extends "sitemestrado/index.html" %}
 
+{% load static %}
+
 {% block title %}
 <title> Editar perfil </title>
 {% endblock %}
@@ -8,6 +10,34 @@
 {% endblock %}
 
 {% block content %}
+  {% if request.user.aluno.imagem %}
+    <img src="{{ request.user.aluno.imagem }}" height="150px">
+  {% elif request.user.professor.imagem %}
+    <img src="{{ request.user.professor.imagem }}" height="150px">
+  {% else %}
+    <img src="{% static '/imagens/defaultprofilepic.png' %}" height="150px">
+  {% endif %} 
+  <form action="{% url 'sitemestrado:editarinfopessoal' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+      <p>Nova foto de perfil: <input type="file" name="imagem"></p>
+      <p>Primeiro Nome: <input  type="text" name="primnome" placeholder="{{request.user.first_name}}"/></p> 
+      <p>Último Nome:  <input type="text" name="ultnome" placeholder="{{request.user.last_name}}"/></p>
+      <p>Email:   <input type="text" name="email" placeholder = "{{request.user.email}}" /></p>
+      {% if request.user.aluno %}
+          <p> Área de trabalho:  <input type="text" name="area_trab" placeholder="{{ request.user.aluno.area_trab }}"/></p>
+          <p> LinkedIn: <input type="text" name="linkedin" placeholder="{{ request.user.aluno.linkedin }}"/> </p>
+        {% if request.user.aluno.is_privado %}
+          <p> Perfil privado: <input type="checkbox" name="privado" checked/> </p>
+        {% else %}
+          <p> Perfil privado: <input type="checkbox" name="privado"/> </p>
+        {% endif %}
+      {% else %}
+        <p> Área de trabalho:  <input type="text" name="area_trab" placeholder="{{ request.user.professor.area_trab }}"/></p>
+        <p> LinkedIn: <input type="text" name="linkedin" placeholder="{{ request.user.professor.linkedin }}"/> </p>
+      {% endif %}
+      <input type="submit" value="Submeter alterações"/>
+  </form>
+
 {% endblock %}
 
 {% block searchbar %}

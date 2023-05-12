@@ -12,6 +12,10 @@ class Aluno(models.Model):
     area_trab = models.TextField()
     linkedin = models.TextField()
 
+    def add_foto(self,foto):
+       self.imagem=foto
+       self.save()
+
     def __str__(self):
         return self.user.username
 
@@ -21,6 +25,10 @@ class Professor(models.Model):
     imagem = models.TextField()
     area_trab = models.TextField()
     linkedin = models.TextField()
+
+    def add_foto(self,foto):
+       self.imagem=foto
+       self.save()
 
     def __str__(self):
         return self.user.username

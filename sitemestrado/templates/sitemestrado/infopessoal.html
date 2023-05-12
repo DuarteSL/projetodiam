@@ -9,42 +9,57 @@
 {% endblock %}
 
 {% block content %}
-  <!-- if user aluno ig -->
+<div class="infopessoal-container">
+  <div class="fotoperfil-container">
+  {% if request.user.aluno.imagem %}
+    <img src="{{ request.user.aluno.imagem }}" height="150px">
+  {% elif request.user.professor.imagem %}
+    <img src="{{ request.user.professor.imagem }}" height="150px">
+  {% else %}
+    <img src="{% static '/imagens/defaultprofilepic.png' %}" height="150px">
+  {% endif %}
+  </div>
+  <div class="info-container">
   <h1 style="display: inline-block"> Nome: {{ request.user.first_name }} {{ request.user.last_name }} </h1> <button class="buttons-default" onclick="window.open('editarinfopessoal','_self')"> Editar perfil</button>
   <h3> Username: {{ request.user.username }} </h3>
   <h4> Email: {{ request.user.email }} </h4>
   {% if request.user.aluno %}
     <h4> Área de trabalho: {{ request.user.aluno.area_trab }} </h4>
     <h4> LinkedIn: <a style="color: -webkit-link; text-decoration: underline;" href="{{ request.user.aluno.linkedin }} target=" target="_blank"> {{ request.user.aluno.linkedin }} </a> </h4>
+  {% elif request.user.professor %}
+    <h4> Área de trabalho: {{ request.user.professor.area_trab }} </h4>
+    <h4> LinkedIn: <a style="color: -webkit-link; text-decoration: underline;" href="{{ request.user.professor.linkedin }} target=" target="_blank"> {{ request.user.professor.linkedin }} </a> </h4>
   {% endif %}
 
-<!-- Temos de passar a lista já filtrada para caso exista uma lista mas ele nao estiver la nao escrever o "Eventos:"-->
-{% if eventos_list %}
-<h1> Eventos: </h1>
-      {% for evento in eventos_list %}
-        <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
-          <div class="evento-layout">
-            <div class="evento-capa">
-            {% if evento.evento_capa %}
-             <img src=" {{ evento.evento_capa }}">
-            {% else %}
-             <img src="{% static "/imagens/defaultnoticia.png" %}">
-            {% endif %}
-            </div>
-            <div class="evento-nome-and-data-container">
-              <div class="evento-nome">
-                <h3> {{ evento.evento_nome }} </h3>
+  <!-- Temos de passar a lista já filtrada para caso exista uma lista mas ele nao estiver la nao escrever o "Eventos:"-->
+  {% if eventos_list %}
+  <h1> Eventos: </h1>
+        {% for evento in eventos_list %}
+          <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
+            <div class="evento-layout">
+              <div class="evento-capa">
+              {% if evento.evento_capa %}
+              <img src=" {{ evento.evento_capa }}">
+              {% else %}
+              <img src="{% static "/imagens/defaultnoticia.png" %}">
+              {% endif %}
               </div>
-              <div class="evento-data">
-                {{ evento.evento_data }}
+              <div class="evento-nome-and-data-container">
+                <div class="evento-nome">
+                  <h3> {{ evento.evento_nome }} </h3>
+                </div>
+                <div class="evento-data">
+                  {{ evento.evento_data }}
+                </div>
               </div>
             </div>
-          </div>
-        </a>
-      {% endfor %}
-{% else %}
-    <h3> Ainda não participaste em nenhum evento </h3>
-{% endif %}
+          </a>
+        {% endfor %}
+  {% else %}
+      <h3> Ainda não participaste em nenhum evento </h3>
+  {% endif %}
+  </div>
+</div>
 {% endblock %}
 
 {% block searchbar %}

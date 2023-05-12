@@ -10,12 +10,19 @@
     {% if outrapessoa.aluno.is_privado %}
       <h1> Perfil privado </h1>
     {% else %}
-    <h1> Nome: {{ outrapessoa.first_name }} {{ outrapessoa.last_name }} </h1>
-    <h4> Email: {{ outrapessoa.email }} </h4>
-    {% if outrapessoa.aluno %}
-      <h4> Área de trabalho: {{ outrapessoa.aluno.area_trab }} </h4>
-      <h4> LinkedIn: <a style="color: -webkit-link; text-decoration: underline;" href="{{ outrapessoa.aluno.linkedin }} target=" target="_blank"> {{ outrapessoa.aluno.linkedin }} </a> </h4>
-    {% endif %}
+      {% if request.user.aluno.imagem %}
+        <img src="{{ request.user.aluno.imagem }}" height="150px">
+      {% elif request.user.professor.imagem %}
+        <img src="{{ request.user.professor.imagem }}" height="150px">
+      {% else %}
+      <img src="{% static '/imagens/defaultprofilepic.png' %}" height="150px">
+      {% endif %}
+      <h1 style="display: inline-block"> Nome: {{ request.user.first_name }} {{ request.user.last_name }} </h1>
+      <h4> Email: {{ request.user.email }} </h4>
+      {% if request.user.aluno %}
+        <h4> Área de trabalho: {{ request.user.aluno.area_trab }} </h4>
+        <h4> LinkedIn: <a style="color: -webkit-link; text-decoration: underline;" href="{{ request.user.aluno.linkedin }} target=" target="_blank"> {{ request.user.aluno.linkedin }} </a> </h4>
+      {% endif %}
     {% endif %}
 {% endblock %}
 

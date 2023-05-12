@@ -33,6 +33,49 @@ def infopessoal(request):
     }
     return render(request, 'sitemestrado/infopessoal.html', context)
 
+
+def editarinfopessoal(request):
+    if request.method == "POST" :
+        user = User.objects.get(id=request.user.id)
+        if request.POST.get("primnome"):
+            user.first_name= request.POST.get("primnome")
+        if request.POST.get("ultnome"):
+            user.last_name=request.POST.get("ultnome")
+        if request.POST.get("email"):
+            user.email= request.POST.get("email")
+        if user.aluno:
+            aluno = Aluno.objects.get(user_id=request.user.id)
+            if request.POST.get("area_trab"):
+                aluno.area_trab= request.POST.get("area_trab")
+            if request.POST.get("linkedin"):
+                aluno.linkedin = request.POST.get("linkedin")
+            privado = request.POST.get('privado')
+            if privado == 'on':
+                aluno.is_privado = True
+            else:
+                aluno.is_privado = False
+            if 'imagem' in request.FILES:
+                imagem = request.FILES.get('imagem')
+                fs = FileSystemStorage()
+                imagename = fs.save(imagem.name,imagem)
+                aluno.add_foto("/sitemestrado/static/media/" + imagename)
+            aluno.save()
+        elif user.professor:
+            professor = Professor.objects.get(user_id=request.user.id)
+            if request.POST.get("area_trab"):
+                professor.area_trab= request.POST.get("area_trab")
+            if request.POST.get("linkedin"):
+                professor.linkedin = request.POST.get("linkedin")
+            if 'imagem' in request.FILES:
+                imagem = request.FILES.get('imagem')
+                fs = FileSystemStorage()
+                imagename = fs.save(imagem.name,imagem)
+                professor.add_foto("/sitemestrado/static/media/" + imagename)
+            professor.save()
+        user.save()
+        return HttpResponseRedirect(reverse('sitemestrado:infopessoal'))
+    return render(request, 'sitemestrado/editarinfopessoal.html')
+
 def loginpage(request):
     if request.method == 'POST':
         u = request.POST.get('username')
@@ -186,9 +229,6 @@ def detalheevento(request, evento_id):
 def infooutrapessoa(request,outrapessoa_id):
     outrapessoa = get_object_or_404(User, pk=outrapessoa_id)
     return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : outrapessoa})
-
-def editarinfopessoal(request):
-    return render(request, 'sitemestrado/editarinfopessoal.html')
 
 def criarpost(request):
     if request.method == 'POST':
