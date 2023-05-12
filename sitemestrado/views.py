@@ -214,7 +214,7 @@ def criarpost(request):
 def searchuser(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
-        lista =User.objects.filter(first_name__contains=searched)
+        lista =User.objects.filter(first_name__contains=searched)|User.objects.filter(last_name__contains=searched)
         return render(request, 'sitemestrado/searchuser.html',{'searched':searched,'listausers':lista})  
     else:
             return render(request, 'sitemestrado/searchuser.html',{'searched':'nao funciona'})      
