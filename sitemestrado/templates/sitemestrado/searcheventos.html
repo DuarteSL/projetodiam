@@ -1,7 +1,6 @@
 {%if searched %}
 <h1> You Search For {{searched}}</h1>
 {% for evento in lista_eventos %}
- <!--
 <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
 <div class="evento-layout">
   <div class="evento-capa">
@@ -18,8 +17,6 @@
   </div>
  </div>
 </a>
--->
-{{evento.evento_nome}}
 {% endfor %}
 
 {%else%}
