@@ -217,4 +217,13 @@ def searchuser(request):
         lista =User.objects.filter(first_name__contains=searched)|User.objects.filter(last_name__contains=searched)
         return render(request, 'sitemestrado/searchuser.html',{'searched':searched,'listausers':lista})  
     else:
-            return render(request, 'sitemestrado/searchuser.html',{'searched':'nao funciona'})      
+            return render(request, 'sitemestrado/searchuser.html')      
+
+
+def searcheventos(request):
+    if request.method == "POST":
+        searched = request.POST.get("searched")
+        lista =Evento.objects.filter(evento_nome__contains=searched)
+        return render(request, 'sitemestrado/searcheventos.html',{'searched':searched,'listaeventos':lista})  
+    else:
+            return render(request, 'sitemestrado/searcheventos.html')                  

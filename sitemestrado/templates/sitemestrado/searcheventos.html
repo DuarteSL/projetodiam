@@ -1,0 +1,27 @@
+{%if searched %}
+<h1> You Search For {{searched}}</h1>
+{% for evento in lista_eventos %}
+ <!--
+<a href="{% url 'sitemestrado:detalheevento' evento.id %}">
+<div class="evento-layout">
+  <div class="evento-capa">
+   {% if evento.evento_capa %}
+     <img src=" {{ evento.evento_capa }}">
+   {% else %}
+    
+   {% endif %}
+  </div>
+  <div class="evento-nome-and-data-container">
+     <h5 style="margin:0"> {{ evento.evento_data }} </h5>
+     <h3> {{ evento.evento_nome }} </h3>
+     <h4 style="margin:0"> {{ evento.evento_local }} </h4>
+  </div>
+ </div>
+</a>
+-->
+{{evento.evento_nome}}
+{% endfor %}
+
+{%else%}
+    <h1>No Search</h1>
+{%endif%}

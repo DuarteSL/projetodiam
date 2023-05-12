@@ -20,4 +20,5 @@ urlpatterns = [
     path('editarinfopessoal', views.editarinfopessoal, name="editarinfopessoal"),
     path('criarpost', views.criarpost, name="criarpost"),
     path('searchuser',views.searchuser, name="searchuser"),
+    path('searcheventos',views.searcheventos, name="searcheventos"),
 ]
