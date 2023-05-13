@@ -18,42 +18,24 @@
 {% block content %}
 {%if searched %}
 <h1> Resultados da pesquisa: </h1>
-<div style="padding-top: 67px">
+<div>
     {% if lista_post %}
       {% for post in lista_post %}
-          <div class="post-layout">
-            <a href="{% url 'sitemestrado:detalhepost' post.id %}">
-            <div class="post-capa">
-            {% if post.post_capa %}
-             <img src=" {{ post.post_capa }}">
-            
-            {% endif %}
-            </div>
-            </a>
-            <div class="post-container">
-              <div class="post-nome-e-autor">
-                <a href="{% url 'sitemestrado:detalhepost' post.id %}">
-                <h1 style="margin: 0"> {{ post.post_nome }} </h1>
-                </a>
-                <h3 style="margin-top:0"> Publicado por <a href="{% url 'sitemestrado:infooutrapessoa' post.post_autor_id %}">{{ post.post_autor }} </a> </h3>
-              </div>
-              <div class="post-data">
-                Data de publicação: {{ post.post_data_pub }}
-              </div>
-              <div class="post-conteudo">
-                Texto: {{ post.post_conteudo }}
-              </div>
-              <div class="post-nr-respostas">
-                Número de respostas: {{ post.post_nr_respostas }}
-              </div>
-            </div>
-          </div>
-      {% endfor %}
-    {% else %}
-      <h1> Ainda não existem posts com este nome </h1>
-    {% endif %}
+      <a href="{% url  'sitemestrado:detalhepost' post.id %}">
+      <div style="display:inline-block">
+        <h1> Post: {{ post.post_nome }} | </h1> 
       </div>
-{%else%}
+      <div style="display:inline-block">
+        <h2> Publicado por: {{ post.post_autor }} </h2>
+      </div>
+  </a>
+  <br>
+  {% endfor %}
+  {% endif %}
+{%else %}
     <h1>No Search</h1>
 {%endif%}
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

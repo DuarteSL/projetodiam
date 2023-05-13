@@ -17,15 +17,15 @@
 
 {% block content %}
 <div class="noticias-title-and-button">
-<h2 style="display: inline-block"> Eventos </h2> <button class="buttons-default" onclick="window.open('adicionarevento','_self')"> Adicionar evento</button>
-<button id = "btn1" onclick="myFunction()"> upcoming events</button>
-<button id= "btn2"onclick="showpast()"> past events</button>
+<h2 style="display:inline-block"> Eventos </h2>
+<button class="buttons-default" id = "btn1"> Eventos futuros</button>
+<button class="buttons-default" id= "btn2"> Histórico de eventos</button>
+<button class="buttons-default" onclick="window.open('adicionarevento','_self')"> Adicionar evento</button>
 </div>
-<div style="padding-top: 67px">
+<div id = "future" style="padding-top: 67px">
     {% if eventos_list %}
-    <div id = "future">
       {% for evento in eventos_list %}
-        {%if evento.is_past_due%}
+        {% if not evento.is_past_due %}
         <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
           <div class="evento-layout">
             <div class="evento-capa">
@@ -45,32 +45,38 @@
         {%endif%}
       {% endfor %}
       </div>
-      <div id = "past">
-        {% for evento in eventos_list %}
-          {%if not evento.is_past_due%}
-          <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
-            <div class="evento-layout">
-              <div class="evento-capa">
-              {% if evento.evento_capa %}
-               <img src=" {{ evento.evento_capa }}">
-              {% else %}
-               <img src="{% static "/imagens/defaultnoticia.png" %}">
-              {% endif %}
-              </div>
-              <div class="evento-nome-and-data-container">
-                <h5 style="margin:0"> {{ evento.evento_data }} </h5>
-                <h3> {{ evento.evento_nome }} </h3>
-                <h4 style="margin:0"> {{ evento.evento_local }} </h4>
-              </div>
-            </div>
-          </a>
-        </div>
-        {%endif%}
-        {% endfor %}
-
-
     {% else %}
       <h1> Não há eventos planeados </h1>
     {% endif %}
-      </div>
+</div>
+<div id = "past" style="display:none" style="padding-top: 67px">
+  {% if eventos_list %}
+    {% for evento in eventos_list %}
+      {% if evento.is_past_due %}
+      <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
+        <div class="evento-layout">
+          <div class="evento-capa">
+          {% if evento.evento_capa %}
+           <img src=" {{ evento.evento_capa }}">
+          {% else %}
+           <img src="{% static "/imagens/defaultnoticia.png" %}">
+          {% endif %}
+          </div>
+          <div class="evento-nome-and-data-container">
+            <h5 style="margin:0"> {{ evento.evento_data }} </h5>
+            <h3> {{ evento.evento_nome }} </h3>
+            <h4 style="margin:0"> {{ evento.evento_local }} </h4>
+          </div>
+        </div>
+      </a>
+      {%endif%}
+    {% endfor %}
+    </div>
+  {% else %}
+    <h1> Não há eventos planeados </h1>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

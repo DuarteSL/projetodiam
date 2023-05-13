@@ -1,4 +1,5 @@
-{% extends "sitemestrado/index.html" %}
+{% extends "sitemestrado/index.html" %} 
+
 {% load static %}
 
 {% block title %}
@@ -9,43 +10,47 @@
 {% endblock %}
 
 {% block content %}
-<div class="noticias-title-and-button">
-    <h2> {{ evento.evento_nome }} </h2>
-</div>
-
-<div style="padding-top: 67px">
-    <h5> {{ evento.evento_data }} </h5>
-    <h4> {{ evento.evento_local }} </h4>
-    {% if evento.evento_capa %}
-      <img src="{{ evento.evento_capa }}" width="20%">
-    {% endif %}
-    <h2> {{ evento.evento_conteudo }} <h2>
-
-    {% if request.user.is_authenticated %}
-      {% if not evento.is_past_due %}
-        <form action="{% url 'sitemestrado:detalheevento' evento.id %}" method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          <input style="display: none" type="checkbox" name="inscr"/>
-          {% if inscrito %}
-            Está inscrito no evento: <input type="submit" value="Desinscrever"/>
-          {% else %}
-            Inscrever no evento: <input type="submit" value="Inscrever"/>
-          {% endif %}
-        </form>
-      {% endif %}
-    {% endif %}
-    {% if evento.imagens.all %}
-      {% for imagem in evento.imagens.all %}
-        <img src="{{ imagem.imagem }}" width="20%">
-        {% endfor %}
-    {% endif %}
-    {% if evento.ficheiros.all %}
-      {% for ficheiro in evento.ficheiros.all %}
-        Download or open file: <a href="{{ ficheiro.ficheiro }}" target="_blank"> {{ ficheiro.ficheiro_nome }}</a> <br>
-      {% endfor %}
-    {% endif %}
-</div>
+    <div class="bodycontent">
+        <div class = "esq-imgs">
+            <div class="esq-cima">
+               {% if evento.evento_capa %}   
+                <img src="{{ evento.evento_capa }}">
+                {% endif %}
+            </div>
+            <div class="esq-baixo">
+                {% if evento.imagens.all %}
+                    {% for imagem in evento.imagens.all %}
+                    <div class="imgamais">
+                        <img src="{{ imagem.imagem }} ">
+                    </div>
+                    {% endfor %}
+                  {% endif %}
+            </div>
+        </div>
+        <div class="direita">   
+          <div class="title">
+            <h1> {{ evento.evento_nome }} </h1>
+          </div>
+          <div class="conteudo">
+            <h2>{{evento.evento_conteudo}}</h2>
+          </div>
+          <div class="info">
+            <h3> {{ evento.evento_local }} </h3>
+            <h3> {{ evento.evento_data }} </h3>  
+          </div>
+          <div class="ficheiros">
+            {% if evento.ficheiros.all %}
+              {% for ficheiro in evento.ficheiros.all %}
+                <h3> Download or open file: <a href="{{ ficheiro.ficheiro }}" target="_blank"> {{ ficheiro.ficheiro_nome }}</a> </h3> <br>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block searchbar %}
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

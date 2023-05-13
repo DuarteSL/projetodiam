@@ -47,7 +47,7 @@
 	height: 45px;
 	width: 100%;
 	opacity: 0;
-	cursor: pointer
+	cursor: pointer;
 }
 #menu label {
 	display: none;
@@ -155,10 +155,10 @@
 
 .scroll-white-top {
 	position: fixed;
-	background-color: rgb(199, 211, 216);
+	background-image: url("/static/imagens/banner.png");
 	z-index: 1;
 	top: 0;
-	right: 6%;
-	left: 6%;
+	right: 0;
+	left: 0;
 	height: 14%;
 }

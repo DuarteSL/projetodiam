@@ -162,9 +162,11 @@ def adicionarevento(request):
         nome = request.POST.get('titulo')
         conteudo = request.POST.get('conteudo')
         data = request.POST.get('data')
+        local = request.POST.get('local')
         q = Evento(evento_nome=nome, 
                     evento_conteudo=conteudo, 
                     evento_data=data,
+                    evento_local=local,
                     evento_autor=request.user.first_name + " " + request.user.last_name, 
                     evento_autor_id=request.user.id,
                     )

@@ -1,0 +1,35 @@
+.footercontainer{
+  position: absolute;
+  width: 88%;
+  background-color: red;
+  text-align: center;
+  height: 13%;
+}
+
+.footer{
+  height: 100%;
+  background-color: rgb(39, 39, 39);
+  display: flex;
+}
+
+.esq{
+  flex:1;
+}
+
+.morada{
+  bottom: 100%;
+  color:rgb(202, 202, 202);
+}
+.meio{
+  flex:1;
+  color: rgb(202, 202, 202);
+}
+
+.dir{
+  flex:1;
+  color:rgb(202, 202, 202);
+}
+.dir a{
+  text-decoration: none;
+  color:rgb(202, 202, 202);
+}

@@ -4,13 +4,14 @@
         {% load static %}
          <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}"> 
          <link rel="stylesheet" type="text/css" href="{% static 'css/content.css' %}"> 
+         <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}"> 
          <link rel="shortcut icon" href="{% static '/imagens/favicon.ico' %}" type="image/x-icon">
         {%block title%}
         <title> A definir </title>
         {% endblock%}
     </head>
     <body>
-      <div class="login-container" style="position: fixed; top:0; right:0; z-index:5" >
+      <div class="login-container" style="position: fixed; top:0; right:0; z-index:5; background-color:white" >
           {% if request.user.is_authenticated %}
                     <div style="display: inline-block"> 
                       {{ request.user.first_name }} {{ request.user.last_name }}
@@ -134,4 +135,29 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
       <script src="{% static 'js/script.js' %}"></script>
     </body>
+    {% block footer %}
+    <div class="footercontainer" id="footercontainer">
+      <div class="footer">
+          <div class = "esq">
+              <div class = "morada">
+                  <h4>Iscte - Instituto Universitário de Lisboa</h4>
+                  <h4>Avenida das Forças Armadas, 1649-026 Lisboa</h4>
+              </div>
+  
+          </div>
+          <div class = "meio">
+                  <h4>Comunidade de Alunos/Ex-alunos e Professores do Mestrado de Business Analytics</h4>
+                  <h4> Coordenador do Mestrado: Raul Laureano </h4>
+          </div>
+          <div class = "dir">
+              <div class=" Contactos">
+                  <h4>Contactos: </h4>
+                  <a href="mailto:dbpgo@iscte-iul.pt">Diogo Peng</a> </br>
+                  <a href="mailto:dslor@iscte-iul.pt">Duarte Laureano</a></br>
+                  <a href="mailto:jarcv@iscte-iul.pt">João Pereira</a></br>
+              </div>
+          </div>
+      </div>
+    </div>
+    {% endblock %}
 </html>

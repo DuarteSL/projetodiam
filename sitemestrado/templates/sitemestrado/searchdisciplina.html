@@ -17,7 +17,7 @@
 {% block content %}
 {%if searched %}
 <h1> Resultados da pesquisa: </h1>
-    {% for disciplina in lista_disciplina%}
+    {% for disciplina in lista_disciplina %}
     <div class = "disciplina">
         <a href="{% url 'sitemestrado:detalhedisc' disciplina.id %}"> <h4>{{ disciplina.disciplina_nome }} </h4> </a>
     </div>
@@ -25,5 +25,8 @@
 {%else%}
     <h1>No Search</h1>
 {%endif%}
+{% endblock %}
+
+{% block footer %}
 {% endblock %}
 

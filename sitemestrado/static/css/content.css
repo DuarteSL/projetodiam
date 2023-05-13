@@ -1,13 +1,12 @@
 html {
-    background-color: rgb(199, 211, 216);
+    background-color: rgb(255, 255, 255);
+    background-image: url("/static/imagens/backgroundimg.png");
+    background-size: 100%;
 } 
 body {
     margin: 6%; 
+    margin-bottom: 4%;
     background-color: white;
-    /*
-    background-image: url("https://www.eduopinions.com/wp-content/uploads/2018/03/ISCTE-Business-School-logo.png");
-    background-size: 100%;
-    */
 }
 
 a {
@@ -113,4 +112,48 @@ a {
 .buttons-default:hover {
     border: 1px solid;
     cursor: pointer;
+}
+
+
+
+.bodycontent{
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    width: 88%;
+    height: 100%;
+}
+
+.esq-cima img {
+    margin-left: 2%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    height: 40%;
+    border-radius: 8%;
+    box-shadow: 10px 5px 15px grey;
+    border-right: solid;
+    border-bottom: solid;
+    padding: 10%;
+}
+
+.esq-baixo{
+    padding-top: 2%;
+}
+
+.title, .info, .conteudo, .ficheiros {
+    padding-left: 5%;
+}
+
+.title h1{
+    color: rgb(51, 37, 37);
+    text-decoration: solid;
+}
+
+.imgamais {
+    display: inline-block;
+    margin-left: 2%;
+    margin-right: 2%;
+    border-radius: 8%;
+    border:solid;
+    border-width: 1%;
 }

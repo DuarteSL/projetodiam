@@ -9,31 +9,46 @@
 {% endblock %}
 
 {% block content %}
-    <h2> {{ noticia.noticia_nome }} </h2>
-
-    <div class="noticia-autor" >
-      <h3> <a href="{% url 'sitemestrado:infooutrapessoa' noticia.noticia_autor_id %}"> {{noticia.noticia_autor}}</a> </h3>
+<div class="bodycontent">
+  <div class = "esq-imgs">
+      <div class="esq-cima">
+         {% if noticia.noticia_capa %}   
+          <img src="{{ noticia.noticia_capa }}">
+          {% endif %}
+      </div>
+      <div class="esq-baixo">
+          {% if noticia.imagens.all %}
+              {% for imagem in noticia.imagens.all %}
+              <div class="imgamais">
+                  <img src="{{ imagem.imagem }} ">
+              </div>
+              {% endfor %}
+            {% endif %}
+      </div>
+  </div>
+  <div class="direita">   
+    <div class="title">
+      <h1> Notícia: {{ noticia.noticia_nome }} </h1>
     </div>
-
-    <h5> {{ noticia.noticia_data_pub }} </h5>
-
-    {% if noticia.noticia_capa %}
-      <img src="{{ noticia.noticia_capa }}" width="20%">
-    {% endif %}
-    <h2> {{ noticia.noticia_conteudo }} <h2>
-
-    {% if noticia.imagens.all %}
-      {% for imagem in noticia.imagens.all %}
-        <img src="{{ imagem.imagem }}" width="20%">
+    <div class="conteudo">
+      <h2>{{ noticia.noticia_conteudo }}</h2>
+    </div>
+    <div class="info">
+      <h3> {{ noticia.noticia_data_pub }} </h3>  
+    </div>
+    <div class="ficheiros">
+      {% if noticia.ficheiros.all %}
+        {% for ficheiro in noticia.ficheiros.all %}
+          <h3> Download or open file: <a href="{{ ficheiro.ficheiro }}" target="_blank"> {{ ficheiro.ficheiro_nome }}</a> </h3> <br>
         {% endfor %}
-    {% endif %}
-
-    {% if noticia.ficheiros.all %}
-      {% for ficheiro in noticia.ficheiros.all %}
-        Download or open file: <a href="{{ ficheiro.ficheiro }}" target="_blank"> {{ ficheiro.ficheiro_nome }}</a> <br>
-      {% endfor %}
-    {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block searchbar %}
+{% endblock %}
+
+{% block footer %}
 {% endblock %}
