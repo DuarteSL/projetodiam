@@ -33,7 +33,7 @@
 
   <!-- Temos de passar a lista já filtrada para caso exista uma lista mas ele nao estiver la nao escrever o "Eventos:"-->
   {% if eventos_list %}
-  <h1> Eventos: </h1>
+  <h1> Eventos em que está inscrito: </h1>
         {% for evento in eventos_list %}
           <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
             <div class="evento-layout">
@@ -50,6 +50,15 @@
                 </div>
                 <div class="evento-data">
                   {{ evento.evento_data }}
+                </div>
+                <div>
+                  {% if not evento.is_past_due %}
+                  <form action="{% url 'sitemestrado:detalheevento' evento.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input style="display: none" type="checkbox" name="inscr"/>
+                    <input type="submit" value="Desinscrever"/>
+                  </form>
+                  {% endif %}
                 </div>
               </div>
             </div>

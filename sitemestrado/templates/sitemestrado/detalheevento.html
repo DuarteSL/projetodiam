@@ -22,7 +22,7 @@
     <h2> {{ evento.evento_conteudo }} <h2>
 
     {% if request.user.is_authenticated %}
-      {% if evento.is_past_due %}
+      {% if not evento.is_past_due %}
         <form action="{% url 'sitemestrado:detalheevento' evento.id %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <input style="display: none" type="checkbox" name="inscr"/>
@@ -38,6 +38,11 @@
       {% for imagem in evento.imagens.all %}
         <img src="{{ imagem.imagem }}" width="20%">
         {% endfor %}
+    {% endif %}
+    {% if evento.ficheiros.all %}
+      {% for ficheiro in evento.ficheiros.all %}
+        Download or open file: <a href="{{ ficheiro.ficheiro }}" target="_blank"> {{ ficheiro.ficheiro_nome }}</a> <br>
+      {% endfor %}
     {% endif %}
 </div>
 {% endblock %}

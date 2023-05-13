@@ -32,7 +32,18 @@
       {% if post.referencia_youtube %}
       <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ post.referencia_youtube }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       {% endif %}
-      <div class="post-nr-respostas">
+      <div class="post-imagens-ficheiros">
+        {% if post.imagens.all %}
+          {% for imagem in post.imagens.all %}
+            <img src="{{ imagem.imagem }}" width="20%">
+          {% endfor %}
+        {% endif %}
+
+        {% if post.ficheiros.all %}
+          {% for ficheiro in post.ficheiros.all %}
+            Download or open file: <a href="{{ ficheiro.ficheiro }}" target="_blank"> {{ ficheiro.ficheiro_nome }}</a> <br>
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
   </div>

@@ -26,7 +26,10 @@ def index(request):
 
 def infopessoal(request):
     noticias_list = Noticia.objects.order_by('-noticia_data_pub')
-    eventos_list = Evento.objects.filter(evento_autor_id=request.user.id).order_by('evento_data')
+    if request.user.aluno:
+        eventos_list = request.user.aluno.eventos.all()
+    else:
+        eventos_list = request.user.professor.eventos.all()
     context = {
          'noticias_list' : noticias_list,
          'eventos_list' : eventos_list
@@ -154,14 +157,12 @@ def criarnoticia(request):
             for f in imagens:
                 imagename = fs.save(f.name,f)
                 q.adicionar_imagem("/sitemestrado/static/media/" + imagename)
-        '''
         if 'ficheiros' in request.FILES:
             ficheiros = request.FILES.getlist('ficheiros')
             fs = FileSystemStorage()
             for f in ficheiros:
-                ficheironame = fs.save(f,f.name)
-                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame)
-        '''
+                ficheironame = fs.save(f.name,f)
+                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame,ficheironame)
         return HttpResponseRedirect(reverse('sitemestrado:index'))
     return render(request, 'sitemestrado/criarnoticia.html')
 
@@ -193,14 +194,12 @@ def adicionarevento(request):
             for f in imagens:
                 imagename = fs.save(f.name,f)
                 q.adicionar_imagem("/sitemestrado/static/media/" + imagename)
-        '''
         if 'ficheiros' in request.FILES:
             ficheiros = request.FILES.getlist('ficheiros')
             fs = FileSystemStorage()
             for f in ficheiros:
-                ficheironame = fs.save(f,f.name)
-                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame)
-        '''
+                ficheironame = fs.save(f.name,f)
+                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame,ficheironame)
         return HttpResponseRedirect(reverse('sitemestrado:index'))
     return render(request, 'sitemestrado/adicionarevento.html')
 
@@ -248,15 +247,13 @@ def criarpost(request):
             for f in imagens:
                 imagename = fs.save(f.name,f)
                 q.adicionar_imagem("/sitemestrado/static/media/" + imagename)
-        '''
         if 'ficheiros' in request.FILES:
             ficheiros = request.FILES.getlist('ficheiros')
             fs = FileSystemStorage()
             for f in ficheiros:
-                ficheironame = fs.save(f,f.name)
-                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame)
-        '''
-        return HttpResponseRedirect(reverse('sitemestrado:index'))
+                ficheironame = fs.save(f.name,f)
+                q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame,ficheironame)
+        return HttpResponseRedirect(reverse('sitemestrado:forum'))
     return render(request, 'sitemestrado/criarpost.html')
 
 def searchuser(request):

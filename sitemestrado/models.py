@@ -44,8 +44,8 @@ class Evento(models.Model):
     evento_autor_id = models.IntegerField()
     evento_nr_inscritos = models.IntegerField(default=0)
 
-    participantes_alunos = models.ManyToManyField('Aluno',related_name='participantes_alunos', default = None)
-    participantes_professores = models.ManyToManyField('Professor',related_name='participantes_professores', default = None)
+    participantes_alunos = models.ManyToManyField('Aluno',related_name='eventos', default = None)
+    participantes_professores = models.ManyToManyField('Professor',related_name='eventos', default = None)
 
     def __str__(self):
       return self.evento_nome
@@ -53,10 +53,18 @@ class Evento(models.Model):
     def add_capa(self,capa):
        self.evento_capa=capa
        self.save()
+    
+    def adicionar_imagem(self,imagem):
+       nova_imagem = Imagem(evento=self,imagem=imagem)
+       nova_imagem.save()
+
+    def adicionar_ficheiro(self,ficheiro,nome):
+       novo_ficheiro = Ficheiro(evento=self,ficheiro=ficheiro,ficheiro_nome=nome)
+       novo_ficheiro.save()
 
     @property
     def is_past_due(self):
-       return timezone.now() < self.evento_data
+       return timezone.now() > self.evento_data
    
     def add_inscrito(self,user):
        if user.aluno:
@@ -106,8 +114,8 @@ class Noticia(models.Model):
        nova_imagem = Imagem(noticia=self,imagem=imagem)
        nova_imagem.save()
 
-    def adicionar_ficheiro(self,ficheiro):
-       novo_ficheiro = Ficheiro(noticia=self,ficheiro=ficheiro)
+    def adicionar_ficheiro(self,ficheiro,nome):
+       novo_ficheiro = Ficheiro(noticia=self,ficheiro=ficheiro,ficheiro_nome=nome)
        novo_ficheiro.save()
 
 class Disciplina(models.Model):
@@ -139,6 +147,14 @@ class Post(models.Model):
        self.post_nr_respostas += 1
        self.save()
 
+    def adicionar_imagem(self,imagem):
+       nova_imagem = Imagem(post=self,imagem=imagem)
+       nova_imagem.save()
+
+    def adicionar_ficheiro(self,ficheiro,nome):
+       novo_ficheiro = Ficheiro(post=self,ficheiro=ficheiro,ficheiro_nome=nome)
+       novo_ficheiro.save()
+
     def __str__(self):
       return self.post_nome
     
@@ -157,14 +173,13 @@ class Resposta(models.Model):
 class Ficheiro(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='ficheiros',default=None,null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='ficheiros',default=None,null=True)
-    resposta = models.ForeignKey(Resposta, on_delete=models.CASCADE, related_name='ficheiros',default=None,null=True)
     noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name='ficheiros',default=None,null=True)
     ficheiro = models.TextField()
+    ficheiro_nome = models.CharField(max_length=200)
 
 class Imagem(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='imagens',default=None,null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='imagens',default=None,null=True)
-    resposta = models.ForeignKey(Resposta, on_delete=models.CASCADE, related_name='imagens',default=None,null=True)
     noticia = models.ForeignKey(Noticia, on_delete=models.CASCADE, related_name='imagens',default=None,null=True)
     imagem = models.TextField()
 

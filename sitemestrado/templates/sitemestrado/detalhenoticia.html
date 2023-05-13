@@ -27,6 +27,12 @@
         <img src="{{ imagem.imagem }}" width="20%">
         {% endfor %}
     {% endif %}
+
+    {% if noticia.ficheiros.all %}
+      {% for ficheiro in noticia.ficheiros.all %}
+        Download or open file: <a href="{{ ficheiro.ficheiro }}" target="_blank"> {{ ficheiro.ficheiro_nome }}</a> <br>
+      {% endfor %}
+    {% endif %}
 {% endblock %}
 
 {% block searchbar %}

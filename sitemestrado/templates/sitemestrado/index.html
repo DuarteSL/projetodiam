@@ -16,6 +16,13 @@
                       {{ request.user.first_name }} {{ request.user.last_name }}
                     </div>
                     <div class="logo-container" style="display: inline-block"> 
+                      {% if request.user.aluno.imagem %}
+                        <img src="{{ request.user.aluno.imagem }}" height="25px">
+                      {% elif request.user.professor.imagem %}
+                        <img src="{{ request.user.professor.imagem }}" height="25px">
+                      {% else %}
+                        <img src="{% static '/imagens/defaultprofilepic.png' %}" height="25px">
+                      {% endif %}
                       <button class="buttons-default" onclick="window.open('logoutpage','_self')">Logout </button> 
                     </div>
                  {% else %}
