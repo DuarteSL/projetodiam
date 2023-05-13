@@ -22,4 +22,5 @@ urlpatterns = [
     path('searchuser',views.searchuser, name="searchuser"),
     path('searcheventos',views.searcheventos, name="searcheventos"),
     path('post_<int:post_id>', views.detalhepost, name="detalhepost"),
+    path('disciplina_<int:disc_id>',views.detalhedisc, name="detalhedisc"),
 ]

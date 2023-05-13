@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Aluno, Noticia, Evento, Post, Professor, Resposta
+from .models import Aluno, Disciplina, Noticia, Evento, Post, Professor, Resposta
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 
@@ -117,11 +117,6 @@ def eventos(request):
         'eventos_list' : eventos_list 
     }
     return render(request, 'sitemestrado/eventos.html',context)
-
-
-
-def disciplinas(request):
-    return render(request, 'sitemestrado/disciplinas.html')
 
 @login_required(login_url='/sitemestrado/loginpage')
 def forum(request):
@@ -295,3 +290,14 @@ def detalhepost(request,post_id):
         return HttpResponseRedirect(reverse('sitemestrado:detalhepost',args=[post_id]))
     return render(request, 'sitemestrado/detalhepost.html',{'post' : post})
 
+def disciplinas(request):
+    disciplinas_list = Disciplina.objects.all()
+    context = {
+        'disciplinas_list' : disciplinas_list,
+    }
+    return render(request, 'sitemestrado/disciplinas.html',context)
+
+def detalhedisc(request, disc_id):
+    disciplina = get_object_or_404(Disciplina,pk=disc_id)
+    post_list = Post.objects.filter(disciplina=disciplina)
+    return render(request, 'sitemestrado/detalhedisc.html',{'disciplina' : disciplina, 'post_list' : post_list})
