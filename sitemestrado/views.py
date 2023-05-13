@@ -220,10 +220,6 @@ def detalheevento(request, evento_id):
         return HttpResponseRedirect(reverse('sitemestrado:detalheevento',args=[evento_id]))
     return render(request, 'sitemestrado/detalheevento.html',{'evento' : evento, 'inscrito': inscrito})
 
-def infooutrapessoa(request,outrapessoa_id):
-    outrapessoa = get_object_or_404(User, pk=outrapessoa_id)
-    return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : outrapessoa})
-
 def criarpost(request):
     if request.method == 'POST':
         nome = request.POST.get('titulo')
@@ -319,10 +315,12 @@ def searchpost(request):
         searched = request.POST.get("searched")
         lista =Post.objects.filter(post_nome__contains=searched)
         return render(request, 'sitemestrado/searchpost.html',{'searched':searched,'lista_post':lista})  
-    return render(request, 'sitemestrado/searchpost.html')     
-def alterarparaprof(request, user_id):
-     user  = get_object_or_404(User,pk=user_id)
-    if request.ser.is_staff:
+    return render(request, 'sitemestrado/searchpost.html')  
+
+
+def infooutrapessoa(request,outrapessoa_id):
+    user = get_object_or_404(User, pk=outrapessoa_id)
+    if request.method == "POST":
         if user.aluno:
             img = user.aluno.imagem
             areatrab= user.aluno.area_trab
@@ -337,3 +335,6 @@ def alterarparaprof(request, user_id):
             a = Aluno(imagem = img, area_trab = areatrab, linkedin = linkedin)
             a.save()
             user.professor.filter(id=user.id).delete()
+        return HttpResponseRedirect(reverse( 'sitemestrado/infooutrapessoa.html',agrs=[user_id]))
+    return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : user})
+

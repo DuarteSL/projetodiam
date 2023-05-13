@@ -26,12 +26,17 @@
         <h4> LinkedIn: <a style="color: -webkit-link; text-decoration: underline;" href="{{ outrapessoa.aluno.linkedin }} target=" target="_blank"> {{ outrapessoa.aluno.linkedin }} </a> </h4>
       {% endif %}
       {% if request.user.is_staff %}
-        {% if outrapessoa.aluno}
-      <button class="buttons-default" href="{% url 'sitemestrado:alterarparaprof' outrapessoa %}"></button>> Tornar professor </button>
-        {%elif outrapessoa.professor}
-      <button class="buttons-default" href="{% url 'sitemestrado:alterarparaprof' outrapessoa %}"></button>> Tornar aluno</button>
+        {% if outrapessoa.aluno%}
+        <form action="{% url 'sitemestrado:infooutrapessoa' outrapessoa.id %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input style="display: none" type="checkbox" name="inscr"/>
+          {% if outrapessoa.aluno %}
+          Tornar Professor:<input type="submit" value="Tornar Professor"/>
+          {% endif %}
+        </form>
       {%endif%}
     {% endif %}
+    {%endif%}
 {% endblock %}
 
 {% block searchbar %}
