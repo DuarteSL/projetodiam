@@ -6,51 +6,52 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}"> 
 </head>
 
-<title> Registar </title>
+<body>
+    <title> Registar </title>
 
     <div class = "center">
-    {% load static %}
-    <h1>Criar Conta</h1>
-    <form action="{% url 'sitemestrado:registar' %}" method="post">
-        {% csrf_token %}
-        <div class="txt_field">
-            <input type="text" name="username" required>
-            <span></span>
-            <label>Username:</label>
-        </div>
-        <div class="txt_field">
-            <input type="text" name="nome" required>
-            <span></span>
-            <label>Nome</label>
-        </div>
-        <div class="txt_field">
-            <input type="text" name="apelido" required>
-            <span></span>
-            <label>Apelido</label>
-        </div>
-        <div class="checkboxpriv">
-            <p>Perfil privado: <input type="checkbox" name="perfilprivado"/> </p>
-            <span></span>
-        </div>
-        <div class="txt_field">
-            <input type="text" name="email" required>
-            <span></span>
-            <label>E-mail</label>
-        </div>
+        {% load static %}
+        <h1>Criar Conta</h1>
+        <form action="{% url 'sitemestrado:registar' %}" method="post">
+            {% csrf_token %}
+            <div class="txt_field">
+                <input type="text" name="username" required>
+                <span></span>
+                <label>Username:</label>
+            </div>
+            <div class="txt_field">
+                <input type="text" name="nome" required>
+                <span></span>
+                <label>Nome</label>
+            </div>
+            <div class="txt_field">
+                <input type="text" name="apelido" required>
+                <span></span>
+                <label>Apelido</label>
+            </div>
+            <div class="checkboxpriv">
+                <p>Perfil privado: <input type="checkbox" name="perfilprivado"/> </p>
+                <span></span>
+            </div>
+            <div class="txt_field">
+                <input type="text" name="email" required>
+                <span></span>
+                <label>E-mail</label>
+            </div>
 
-        <div class="txt_field">
-            <input type="password" name="password" required>
-            <span></span>
-            <label>Password</label>
-        </div>
+            <div class="txt_field">
+                <input type="password" name="password" required>
+                <span></span>
+                <label>Password</label>
+            </div>
            
         <input type="submit" value="Registar"/>
-    </form>
+        </form>
     
-    <div class="signup_link">
-    <a href="{% url 'sitemestrado:index' %}">Voltar à página inicial</a>
+        <div class="signup_link">
+        <a href="{% url 'sitemestrado:index' %}">Voltar à página inicial</a>
+        </div>
     </div>
-
-</div>
+</body>
 
 
