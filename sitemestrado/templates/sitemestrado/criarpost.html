@@ -17,6 +17,9 @@
             <p>Imagem de capa:   <input type="file" name="imagem"/></p>
             <p>Imagens:   <input type="file" name="imagens" multiple/></p>
             <p>Ficheiros:   <input type="file" name="ficheiros" multiple/></p> 
+            {%if request.user.professor%}
+            <p>Disciplinas:   <input type="text" name="disciplina" /></p> 
+            {%endif%}
         <input type="submit" value="Criar Post"/>
     </form>
 </h2>

@@ -229,11 +229,17 @@ def criarpost(request):
         nome = request.POST.get('titulo')
         conteudo = request.POST.get('conteudo')
         referenciayoutube = request.POST.get('referenciayoutube')
+        disciplina = request.POST.get('disciplina')
+        if(disciplina):
+            d = disciplina
+        else:
+            d=null
         q = Post(post_nome=nome, 
                     post_conteudo=conteudo, 
                     referencia_youtube = referenciayoutube,
                     post_autor=request.user.first_name + " " + request.user.last_name, 
                     post_autor_id=request.user.id,
+                    disciplina=d
                     )
         if 'imagem' in request.FILES:
             imagem = request.FILES.get('imagem')

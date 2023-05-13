@@ -136,7 +136,10 @@ class Post(models.Model):
     post_data_pub = models.DateTimeField(default=datetime.now())
     referencia_youtube = models.TextField()
     post_nr_respostas = models.IntegerField(default=0)
-
+    #  ChoiceField= forms.ModelChoiceField(
+     #    queryset = Disciplina.objects.all(),
+      #   widget=forms.Select
+      #)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE, default = None, null=True)
 
     def add_capa(self,capa):
