@@ -296,15 +296,16 @@ def criardisciplina(request):
 def detalhedisc(request, disc_id):
     disciplina = get_object_or_404(Disciplina,pk=disc_id)
     post_list = Post.objects.filter(disciplina=disciplina)
+    users_list = User.objects.all()
     if request.method == 'POST':
         profID = request.POST.get('professor')
-        if(profID):
+        if profID:
             d = Disciplina.objects.get(pk=disc_id)
-            professor = Aluno.objects.get(pk=profID)
+            professor = Aluno.objects.get(user_id=profID)
             if(professor):
-                professor.disciplina.add(d)
-        return HttpResponseRedirect(reverse('sitemestrado:detalhesdisc'))
-    return render(request, 'sitemestrado/detalhedisc.html',{'disciplina' : disciplina, 'post_list' : post_list,'professor_list':User.objects.all()})
+                professor.disciplinas.add(d)
+        return HttpResponseRedirect(reverse('sitemestrado:detalhedisc',args=[disc_id]))
+    return render(request, 'sitemestrado/detalhedisc.html',{'disciplina' : disciplina, 'post_list' : post_list,'users_list': users_list})
 
 def searchdisciplina(request):
     if request.method == "POST":
@@ -331,4 +332,3 @@ def infooutrapessoa(request,outrapessoa_id):
             user.aluno.set_professor()
         return HttpResponseRedirect(reverse( 'sitemestrado:infooutrapessoa',args=[user.id]))
     return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : user})
-

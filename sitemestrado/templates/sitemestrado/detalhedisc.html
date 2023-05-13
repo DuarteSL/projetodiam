@@ -58,11 +58,11 @@
   <p>Adicionar Professor</p>  
   <form action="{% url 'sitemestrado:detalhedisc' disciplina.id %}" method="post" enctype="multipar t/form-data">
       {%csrf_token%}
-      {% for user in professor_list %}
+      {% for user in users_list %}
         {% if user.aluno.is_professor%}
           <input type="radio" name="professor" id="Aluno{{ forloop.counter }}" value="{{ user.id }}" />
           <label for="disciplina{{ forloop.counter }}">
-             {{user.first_name}}{{user.last_name}}
+             {{user.first_name}} {{user.last_name}}
           </label>
           <br>
           {%endif%}
