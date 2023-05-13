@@ -292,6 +292,7 @@ def criardisciplina(request):
         return HttpResponseRedirect(reverse('sitemestrado:disciplinas')) 
     return render(request, 'sitemestrado/criardisciplina.html')
 
+@login_required(login_url='/sitemestrado/loginpage')
 def detalhedisc(request, disc_id):
     disciplina = get_object_or_404(Disciplina,pk=disc_id)
     post_list = Post.objects.filter(disciplina=disciplina)
