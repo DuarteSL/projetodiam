@@ -25,6 +25,9 @@
         <h4> Área de trabalho: {{ outrapessoa.aluno.area_trab }} </h4>
         <h4> LinkedIn: <a style="color: -webkit-link; text-decoration: underline;" href="{{ outrapessoa.aluno.linkedin }} target=" target="_blank"> {{ outrapessoa.aluno.linkedin }} </a> </h4>
       {% endif %}
+      {% if request.user.is_staff %}
+      <button class="buttons-default"> tornar professor</button>
+      {%endif%}
     {% endif %}
 {% endblock %}
 
