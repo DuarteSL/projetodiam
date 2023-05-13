@@ -1,5 +1,14 @@
 {% extends "sitemestrado/index.html" %}
 {% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
+  $(document).ready(function () {
+    $("#btn1").click(function () {
+        $('#past').show();
+        $('#future').hide();
+    });
+});
+</script>
+  <script src="{% static 'votacao/js/evento.js' %}"></script>
 
 {% block title %}
   <title> Eventos </title>
@@ -17,10 +26,14 @@
 {% block content %}
 <div class="noticias-title-and-button">
 <h2 style="display: inline-block"> Eventos </h2> <button class="buttons-default" onclick="window.open('adicionarevento','_self')"> Adicionar evento</button>
+<button id = "btn1" onclick="myFunction()"> upcoming events</button>
+<button id= "btn2"onclick="showpast()"> past events</button>
 </div>
 <div style="padding-top: 67px">
     {% if eventos_list %}
       {% for evento in eventos_list %}
+        {%if evento.is_past_due%}
+        <div id = "future">
         <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
           <div class="evento-layout">
             <div class="evento-capa">
@@ -37,10 +50,30 @@
             </div>
           </div>
         </a>
+      </div>
+      {%else%}
+      <div id = "past" style ="display : none">
+        <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
+          <div class="evento-layout">
+            <div class="evento-capa">
+            {% if evento.evento_capa %}
+             <img src=" {{ evento.evento_capa }}">
+            {% else %}
+             <img src="{% static "/imagens/defaultnoticia.png" %}">
+            {% endif %}
+            </div>
+            <div class="evento-nome-and-data-container">
+              <h5 style="margin:0"> {{ evento.evento_data }} </h5>
+              <h3> {{ evento.evento_nome }} </h3>
+              <h4 style="margin:0"> {{ evento.evento_local }} </h4>
+            </div>
+          </div>
+        </a>  
+      </div>
+      {%endif%}
       {% endfor %}
     {% else %}
       <h1> Não há eventos planeados </h1>
     {% endif %}
       </div>
 {% endblock %}
-
