@@ -298,12 +298,16 @@ def detalhedisc(request, disc_id):
     post_list = Post.objects.filter(disciplina=disciplina)
     users_list = User.objects.all()
     if request.method == 'POST':
-        profID = request.POST.get('professor')
-        if profID:
-            d = Disciplina.objects.get(pk=disc_id)
-            professor = Aluno.objects.get(user_id=profID)
+        profIDrem = request.POST.get('removerProfesor')
+        profIDadd = request.POST.get('adicionarProfesor')
+        if profIDrem:
+            professor = Aluno.objects.get(user_id=profIDrem)
             if(professor):
-                professor.disciplinas.add(d)
+                professor.disciplinas.remove(disciplina)
+        if profIDadd:
+            professor = Aluno.objects.get(user_id=profIDadd)
+            if(professor):
+                professor.disciplinas.add(disciplina)
         return HttpResponseRedirect(reverse('sitemestrado:detalhedisc',args=[disc_id]))
     return render(request, 'sitemestrado/detalhedisc.html',{'disciplina' : disciplina, 'post_list' : post_list,'users_list': users_list})
 
