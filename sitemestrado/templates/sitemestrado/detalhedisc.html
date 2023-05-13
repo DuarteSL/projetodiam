@@ -13,8 +13,12 @@
 <p>Disciplina: {{disciplina.disciplina_nome}}</p>
 
 <p>Professores: 
-    {% for professor in disciplina.aluno.all %}
-        <a href = "{% url 'sitemestrado:infooutrapessoa' professor.user_id %}"> {{ professor.user_first_name }} {{ professor.user_last_name }} </a>
+    {% for professor in disciplina.professores.all %}
+      {% for user in users_list %}
+        {% if user.id == professor.user_id %}
+          <a href = "{% url 'sitemestrado:infooutrapessoa' professor.user_id %}"> {{ user.first_name }} {{ user.last_name }} </a>
+        {% endif %}
+      {% endfor %}
     {% endfor%}
 </p>
 </div>
