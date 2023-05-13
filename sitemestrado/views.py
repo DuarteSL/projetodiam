@@ -205,7 +205,11 @@ def adicionarevento(request):
 
 def detalheevento(request, evento_id):
     evento = get_object_or_404(Evento, pk=evento_id)
-    inscrito = Evento.isInscrito(evento,request.user)
+    inscrito = False
+    if request.user.is_authenticated:
+        if not request.user.is_staff: 
+            if request.user.aluno or request.user.professor:
+                inscrito = Evento.isInscrito(evento,request.user)
     if request.method == 'POST':
         if request.user.aluno:
             if evento.participantes_alunos.contains(request.user.aluno):
@@ -229,7 +233,7 @@ def criarpost(request):
         if(disciplina):
             d = disciplina
         else:
-            d=null
+            d= None
         q = Post(post_nome=nome, 
                     post_conteudo=conteudo, 
                     referencia_youtube = referenciayoutube,
@@ -325,16 +329,16 @@ def infooutrapessoa(request,outrapessoa_id):
             img = user.aluno.imagem
             areatrab= user.aluno.area_trab
             linkedin = user.aluno.linkedin
-            p = Professor(imagem = img, area_trab = areatrab, linkedin = linkedin)
+            Aluno.objects.filter(user_id=user.id).delete()
+            p = Professor(user = user, imagem = img, area_trab = areatrab, linkedin = linkedin)
             p.save()
-            user.aluno.filter(id=user_id).delete()
         elif user.professor:
             img =  img = user.professor.imagem
             areatrab= user.profesor.area_trab
             linkedin = user.professor.linkedin
-            a = Aluno(imagem = img, area_trab = areatrab, linkedin = linkedin)
+            Professor.objects.filter(user_id=user.id).delete()
+            a = Aluno(user = user, imagem = img, area_trab = areatrab, linkedin = linkedin)
             a.save()
-            user.professor.filter(id=user.id).delete()
-        return HttpResponseRedirect(reverse( 'sitemestrado/infooutrapessoa.html',agrs=[user_id]))
+        return HttpResponseRedirect(reverse( 'sitemestrado/infooutrapessoa.html',agrs=[user.id]))
     return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : user})
 
