@@ -14,8 +14,6 @@
     {% else %}
       {% if outrapessoa.aluno.imagem %}
         <img src="{{ outrapessoa.aluno.imagem }}" height="150px">
-      {% elif outrapessoa.professor.imagem %}
-        <img src="{{ outrapessoa.professor.imagem }}" height="150px">
       {% else %}
       <img src="{% static '/imagens/defaultprofilepic.png' %}" height="150px">
       {% endif %}
@@ -30,8 +28,10 @@
         <form action="{% url 'sitemestrado:infooutrapessoa' outrapessoa.id %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <input style="display: none" type="checkbox" name="inscr"/>
-          {% if outrapessoa.aluno %}
-          Tornar Professor:<input type="submit" value="Tornar Professor"/>
+          {% if outrapessoa.aluno.is_professor %}
+          <input type="submit" value="Tornar Aluno"/>
+          {% else %}
+          <input type="submit" value="Tornar Professor"/>
           {% endif %}
         </form>
       {%endif%}

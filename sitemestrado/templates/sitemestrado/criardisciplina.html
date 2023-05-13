@@ -1,0 +1,22 @@
+{% extends "sitemestrado/index.html" %}
+{% block title %}
+<title> Criar novo disciplina </title>
+{% endblock %}
+
+{% block eventos-list %}
+{% endblock %}
+
+{% block content %}
+<h2>
+    {% load static %}
+    <form action="{% url 'sitemestrado:criardisciplina' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <p>Nome:  <input type="text" name="nome"/></p>
+            <p>Sigla:  <input type="text" name="sigla"/></p>
+        <input type="submit" value="Criar Discplina"/>
+    </form>
+</h2>
+{% endblock %}
+
+{% block searchbar %}
+{% endblock %}

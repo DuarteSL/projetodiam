@@ -14,13 +14,17 @@
 {% endblock %}
 
 {% block content %}
-<div class = "disciplinas-container">
+<div class="noticias-title-and-button">
+    <h2 style="display: inline-block"> Discplinas </h2> {% if request.user.is_staff %} <button class="buttons-default" onclick="window.open('criardisciplina','_self')"> Criar nova disciplina </button> {% endif %}
+</div>
+<div style="padding-top: 67px" class = "disciplinas-container">
     {% for disciplina in disciplinas_list %}
         <div class = "disciplina">
-            <a href="{% url 'sitemestrado:detalhedisc' disciplina.id %}"> <h4>{{ disciplina.disciplina_nome }} </h4> </a>
+            <a href="{% url 'sitemestrado:detalhedisc' disciplina.id %}"> 
+                <h3 style="display:inline-block"> {{ disciplina.disciplina_sigla }}</h3> -
+                <h4 style="display:inline-block"> {{ disciplina.disciplina_nome }} </h4> 
+            </a>
         </div>
-
     {%endfor%}
-
 </div>
 {% endblock %}

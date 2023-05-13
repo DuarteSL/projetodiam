@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Aluno, Disciplina, Noticia, Evento, Post, Professor, Resposta
+from .models import Aluno, Disciplina, Noticia, Evento, Post, Resposta
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 
@@ -28,8 +28,6 @@ def infopessoal(request):
     noticias_list = Noticia.objects.order_by('-noticia_data_pub')
     if request.user.aluno:
         eventos_list = request.user.aluno.eventos.all()
-    else:
-        eventos_list = request.user.professor.eventos.all()
     context = {
          'noticias_list' : noticias_list,
          'eventos_list' : eventos_list
@@ -63,18 +61,6 @@ def editarinfopessoal(request):
                 imagename = fs.save(imagem.name,imagem)
                 aluno.add_foto("/sitemestrado/static/media/" + imagename)
             aluno.save()
-        elif user.professor:
-            professor = Professor.objects.get(user_id=request.user.id)
-            if request.POST.get("area_trab"):
-                professor.area_trab= request.POST.get("area_trab")
-            if request.POST.get("linkedin"):
-                professor.linkedin = request.POST.get("linkedin")
-            if 'imagem' in request.FILES:
-                imagem = request.FILES.get('imagem')
-                fs = FileSystemStorage()
-                imagename = fs.save(imagem.name,imagem)
-                professor.add_foto("/sitemestrado/static/media/" + imagename)
-            professor.save()
         user.save()
         return HttpResponseRedirect(reverse('sitemestrado:infopessoal'))
     return render(request, 'sitemestrado/editarinfopessoal.html')
@@ -208,16 +194,11 @@ def detalheevento(request, evento_id):
     inscrito = False
     if request.user.is_authenticated:
         if not request.user.is_staff: 
-            if request.user.aluno or request.user.professor:
+            if request.user.aluno:
                 inscrito = Evento.isInscrito(evento,request.user)
     if request.method == 'POST':
         if request.user.aluno:
             if evento.participantes_alunos.contains(request.user.aluno):
-                evento.remove_inscrito(request.user)
-            else:
-                evento.add_inscrito(request.user)
-        else:
-            if evento.participantes_professores.contains(request.user.professor):
                 evento.remove_inscrito(request.user)
             else:
                 evento.add_inscrito(request.user)
@@ -229,9 +210,9 @@ def criarpost(request):
         nome = request.POST.get('titulo')
         conteudo = request.POST.get('conteudo')
         referenciayoutube = request.POST.get('referenciayoutube')
-        disciplina = request.POST.get('disciplina')
-        if(disciplina):
-            d = disciplina
+        disc = request.POST.get('disciplina')
+        if(disc):
+            d = Disciplina.objects.get(pk=disc)
         else:
             d= None
         q = Post(post_nome=nome, 
@@ -260,13 +241,15 @@ def criarpost(request):
                 ficheironame = fs.save(f.name,f)
                 q.adicionar_ficheiro("/sitemestrado/static/media/" + ficheironame,ficheironame)
         return HttpResponseRedirect(reverse('sitemestrado:forum'))
-    return render(request, 'sitemestrado/criarpost.html')
+    disciplinas_list = request.user.aluno.disciplinas.all()
+    context = { 'disciplinas_list' : disciplinas_list}
+    return render(request, 'sitemestrado/criarpost.html',context)
 
 def searchuser(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
-        listauser =User.objects.filter(first_name__contains=searched)| User.objects.filter(last_name__contains=searched) 
-        #| User.objects.filter(area_trab__contains=searched) | Professor.objects.filter(area_trab__contains=searched)
+        listauser =User.objects.filter(first_name__contains=searched) | User.objects.filter(last_name__contains=searched) 
+        #| User.objects.filter(area_trab__contains=searched)
         return render(request, 'sitemestrado/searchuser.html',{'searched':searched,'listausers':listauser})  
     return render(request, 'sitemestrado/searchuser.html')      
 
@@ -274,7 +257,7 @@ def searchuser(request):
 def searcheventos(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
-        lista =Evento.objects.filter(evento_nome__contains=searched)
+        lista = Evento.objects.filter(evento_nome__contains=searched) | Evento.objects.filter(evento_conteudo__contains=searched)
         return render(request, 'sitemestrado/searcheventos.html',{'searched':searched,'lista_eventos':lista})  
     return render(request, 'sitemestrado/searcheventos.html')   
 
@@ -300,12 +283,20 @@ def disciplinas(request):
     }
     return render(request, 'sitemestrado/disciplinas.html',context)
 
+def criardisciplina(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        sigla = request.POST.get('sigla')
+        disc = Disciplina(disciplina_nome=nome,disciplina_sigla=sigla)
+        disc.save()
+        return HttpResponseRedirect(reverse('sitemestrado:disciplinas')) 
+    return render(request, 'sitemestrado/criardisciplina.html')
+
 def detalhedisc(request, disc_id):
     disciplina = get_object_or_404(Disciplina,pk=disc_id)
     post_list = Post.objects.filter(disciplina=disciplina)
     return render(request, 'sitemestrado/detalhedisc.html',{'disciplina' : disciplina, 'post_list' : post_list})
 
-    
 def searchdisciplina(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
@@ -317,7 +308,7 @@ def searchdisciplina(request):
 def searchpost(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
-        lista =Post.objects.filter(post_nome__contains=searched)
+        lista = Post.objects.filter(post_nome__contains=searched) | Post.objects.filter(post_conteudo__contains=searched)
         return render(request, 'sitemestrado/searchpost.html',{'searched':searched,'lista_post':lista})  
     return render(request, 'sitemestrado/searchpost.html')  
 
@@ -325,20 +316,10 @@ def searchpost(request):
 def infooutrapessoa(request,outrapessoa_id):
     user = get_object_or_404(User, pk=outrapessoa_id)
     if request.method == "POST":
-        if user.aluno:
-            img = user.aluno.imagem
-            areatrab= user.aluno.area_trab
-            linkedin = user.aluno.linkedin
-            Aluno.objects.filter(user_id=user.id).delete()
-            p = Professor(user = user, imagem = img, area_trab = areatrab, linkedin = linkedin)
-            p.save()
-        elif user.professor:
-            img =  img = user.professor.imagem
-            areatrab= user.profesor.area_trab
-            linkedin = user.professor.linkedin
-            Professor.objects.filter(user_id=user.id).delete()
-            a = Aluno(user = user, imagem = img, area_trab = areatrab, linkedin = linkedin)
-            a.save()
-        return HttpResponseRedirect(reverse( 'sitemestrado/infooutrapessoa.html',agrs=[user.id]))
+        if user.aluno.is_professor:
+            user.aluno.set_aluno()
+        else:
+            user.aluno.set_professor()
+        return HttpResponseRedirect(reverse( 'sitemestrado:infooutrapessoa',args=[user.id]))
     return render(request, 'sitemestrado/infooutrapessoa.html',{'outrapessoa' : user})
 

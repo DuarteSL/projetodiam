@@ -25,4 +25,5 @@ urlpatterns = [
     path('disciplina_<int:disc_id>',views.detalhedisc, name="detalhedisc"),
     path('searchdisciplina',views.searchdisciplina,name ="searchdisciplina"),
     path('searchpost',views.searchpost,name="searchpost"),
+    path('criardisciplina',views.criardisciplina,name="criardisciplina")
 ]

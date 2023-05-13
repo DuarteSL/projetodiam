@@ -11,27 +11,24 @@ class Aluno(models.Model):
     is_privado = models.BooleanField(default=False)
     area_trab = models.TextField()
     linkedin = models.TextField()
+    is_professor = models.BooleanField(default=False)
 
     def add_foto(self,foto):
        self.imagem=foto
        self.save()
 
-    def __str__(self):
-        return self.user.username
+    def set_professor(self):
+       self.is_professor = True
+       self.is_privado = False
+       self.save()  
 
-
-class Professor(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    imagem = models.TextField()
-    area_trab = models.TextField()
-    linkedin = models.TextField()
-
-    def add_foto(self,foto):
-       self.imagem=foto
-       self.save()
+    def set_aluno(self):
+       self.is_professor = False
+       self.save()  
 
     def __str__(self):
         return self.user.username
+
   
 
 class Evento(models.Model):
@@ -45,7 +42,6 @@ class Evento(models.Model):
     evento_nr_inscritos = models.IntegerField(default=0)
 
     participantes_alunos = models.ManyToManyField('Aluno',related_name='eventos', default = None)
-    participantes_professores = models.ManyToManyField('Professor',related_name='eventos', default = None)
 
     def __str__(self):
       return self.evento_nome
@@ -67,18 +63,12 @@ class Evento(models.Model):
        return timezone.now() > self.evento_data
    
     def add_inscrito(self,user):
-       if user.aluno:
-          self.participantes_alunos.add(user.aluno)
-       else:
-          self.participantes_professores.add(user.professor)
+       self.participantes_alunos.add(user.aluno)
        self.evento_nr_inscritos += 1
        self.save()
 
     def remove_inscrito(self,user):
-       if user.aluno:
-          self.participantes_alunos.remove(user.aluno)
-       else:
-          self.participantes_professores.remove(user.professor)
+       self.participantes_alunos.remove(user.aluno)
        self.evento_nr_inscritos -= 1
        self.save()
     
@@ -87,10 +77,7 @@ class Evento(models.Model):
        return list(filtered)[-3:]
 
     def isInscrito(self,user):
-       if user.aluno:
-         return self.participantes_alunos.contains(user.aluno) 
-       else:
-         return self.participantes_professores.contains(user.professor)
+      return self.participantes_alunos.contains(user.aluno) 
          
 
    
@@ -120,12 +107,11 @@ class Noticia(models.Model):
 
 class Disciplina(models.Model):
     disciplina_nome = models.CharField(max_length=200)
-    professores = models.ManyToManyField('Professor',related_name='disciplinas', default = None)
+    disciplina_sigla = models.CharField(max_length=200)
+    professores = models.ManyToManyField('Aluno',related_name='disciplinas', default = None)
 
     def __str__(self):
       return self.disciplina_nome
-
-
 
 class Post(models.Model):
     post_nome = models.CharField(max_length=200)

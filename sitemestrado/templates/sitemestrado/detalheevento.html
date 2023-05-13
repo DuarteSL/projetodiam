@@ -27,9 +27,9 @@
           {% csrf_token %}
           <input style="display: none" type="checkbox" name="inscr"/>
           {% if inscrito %}
-          Está inscrito no evento: <input type="submit" value="Desinscrever"/>
+            Está inscrito no evento: <input type="submit" value="Desinscrever"/>
           {% else %}
-          Inscrever no evento: <input type="submit" value="Inscrever"/>
+            Inscrever no evento: <input type="submit" value="Inscrever"/>
           {% endif %}
         </form>
       {% endif %}

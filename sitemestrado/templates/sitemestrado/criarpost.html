@@ -17,8 +17,16 @@
             <p>Imagem de capa:   <input type="file" name="imagem"/></p>
             <p>Imagens:   <input type="file" name="imagens" multiple/></p>
             <p>Ficheiros:   <input type="file" name="ficheiros" multiple/></p> 
-            {%if request.user.professor%}
-            <p>Disciplinas:   <input type="text" name="disciplina" /></p> 
+            {%if request.user.aluno.is_professor %}
+                <p>Escolha uma disciplina:   
+                    {% for disciplina in disciplinas_list %}
+                        <input type="radio" name="disciplina" id="disciplina{{ forloop.counter }}" value="{{ disciplina.id }}" />
+                        <label for="disciplina{{ forloop.counter }}">
+                            {{ disciplina.disciplina_nome }}
+                        </label>
+                        <br>
+                    {% endfor %}
+                </p> 
             {%endif%}
         <input type="submit" value="Criar Post"/>
     </form>
