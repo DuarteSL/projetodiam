@@ -15,7 +15,7 @@
 
 {% block content %}
 <div class="noticias-title-and-button">
-    <h2 style="display: inline-block"> Discplinas </h2> {% if request.user.is_staff %} <button class="buttons-default" onclick="window.open('criardisciplina','_self')"> Criar nova disciplina </button> {% endif %}
+    <h2 style="display: inline-block;padding-left:0.5%;"> Discplinas </h2> {% if request.user.is_staff %} <button class="buttons-default" onclick="window.open('criardisciplina','_self')"> Criar nova disciplina </button> {% endif %}
 </div>
 <div style="padding-top: 67px" class = "disciplinas-container">
     {% for disciplina in disciplinas_list %}

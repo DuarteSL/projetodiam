@@ -1,7 +1,5 @@
 html {
-    background-color: rgb(255, 255, 255);
-    background-image: url("/static/imagens/backgroundimg.png");
-    background-size: 100%;
+    background-color: rgb(197, 182, 159);
 } 
 body {
     margin: 6%; 

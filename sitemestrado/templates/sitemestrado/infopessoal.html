@@ -31,33 +31,18 @@
   <h1> Eventos em que está inscrito: </h1>
         {% for evento in eventos_list %}
           <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
-            <div class="evento-layout">
-              <div class="evento-capa">
-              {% if evento.evento_capa %}
-              <img src=" {{ evento.evento_capa }}">
-              {% else %}
-              <img src="{% static "/imagens/defaultnoticia.png" %}">
-              {% endif %}
-              </div>
-              <div class="evento-nome-and-data-container">
-                <div class="evento-nome">
-                  <h3> {{ evento.evento_nome }} </h3>
-                </div>
-                <div class="evento-data">
-                  {{ evento.evento_data }}
-                </div>
-                <div>
-                  {% if not evento.is_past_due %}
-                  <form action="{% url 'sitemestrado:detalheevento' evento.id %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input style="display: none" type="checkbox" name="inscr"/>
-                    <input type="submit" value="Desinscrever"/>
-                  </form>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
+            <h2 style="display: inline-block"> Evento: {{ evento.evento_nome }} | </h2> <h3 style="display: inline-block"> {{ evento.evento_data }} </h3>
           </a>
+          <div style="display: inline-block">
+            {% if not evento.is_past_due %}
+              <form action="{% url 'sitemestrado:detalheevento' evento.id %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+                <input style="display: none" type="checkbox" name="inscr"/>
+                <input type="submit" value="Desinscrever"/>
+              </form>
+              {% endif %} 
+          </div>
+          <br>
         {% endfor %}
   {% else %}
       <h3> Ainda não participaste em nenhum evento </h3>

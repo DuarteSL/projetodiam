@@ -10,9 +10,9 @@
 
 {% block content %}
 <div class="noticias-title-and-button">
-<p>Disciplina: {{disciplina.disciplina_nome}}</p>
+<h2 style="margin-bottom:0">Disciplina: {{disciplina.disciplina_nome}}</h2>
 
-<p>Professores: 
+<h4 style="margin-top:0">Professores que lecionam esta disciplina: 
     {% for professor in disciplina.professores.all %}
       {% for user in users_list %}
         {% if user.id == professor.user_id %}
@@ -20,10 +20,27 @@
         {% endif %}
       {% endfor %}
     {% endfor%}
-</p>
+</h4>
 </div>
-
 <div style="padding-top: 67px">
+{%if request.user.is_staff%}
+<p>Adicionar Professor</p>  
+<form action="{% url 'sitemestrado:detalhedisc' disciplina.id %}" method="post" enctype="multipar t/form-data">
+    {%csrf_token%}
+    <p>removerProfesor:  <input type="number" name="removerProfesor"/></p>
+    <p>adicionarProfesor:  <input type="number" name="adicionarProfesor"/></p>
+    <input type="submit" value="Executar"/>
+      </form>
+
+  {% for user in users_list %}
+    {% if user.aluno.is_professor%}
+       {{user.id}} : {{user.first_name}} {{user.last_name}}
+        <br>
+      {%endif%}
+    {% endfor %}
+{%endif%}
+</div>
+<div>
   {% if post_list %}
     {% for post in post_list %}
       <div class="post-layout">
@@ -58,24 +75,6 @@
   {% else %}
     <h4> Ainda não houve posts publicados </h4>
   {% endif %}
-  {%if request.user.is_staff%}
-  <p>Adicionar Professor</p>  
-  <form action="{% url 'sitemestrado:detalhedisc' disciplina.id %}" method="post" enctype="multipar t/form-data">
-      {%csrf_token%}
-      <p>removerProfesor:  <input type="number" name="removerProfesor"/></p>
-      <p>adicionarProfesor:  <input type="number" name="adicionarProfesor"/></p>
-      <input type="submit" value="Executar"/>
-        </form>
-
-    {% for user in users_list %}
-      {% if user.aluno.is_professor%}
-         {{user.id}} : {{user.first_name}} {{user.last_name}}
-          <br>
-        {%endif%}
-      {% endfor %}
-  {%endif%}
-
-
 </div>
 {%endblock%}
 
