@@ -1,8 +1,7 @@
 {% extends "sitemestrado/index.html" %}
-{% load static %}
 
 {% block title %}
-  <title> Fórum </title>
+  <title> Resultado da pesquisa  </title>
 {% endblock %}
 
 {%block searchbar%}
@@ -17,19 +16,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="noticias-title-and-button">
-<h2 style="display: inline-block"> Fórum </h2> <button class="buttons-default" onclick="window.open('criarpost','_self')"> Criar post</button>
-</div>
+{%if searched %}
+<h1> Resultados da pesquisa: </h1>
 <div style="padding-top: 67px">
-    {% if post_list %}
-      {% for post in post_list %}
+    {% if lista_post %}
+      {% for post in lista_post %}
           <div class="post-layout">
             <a href="{% url 'sitemestrado:detalhepost' post.id %}">
             <div class="post-capa">
             {% if post.post_capa %}
              <img src=" {{ post.post_capa }}">
-            {% else %}
-             <img src="{% static "/imagens/defaultnoticia.png" %}">
+            
             {% endif %}
             </div>
             </a>
@@ -53,8 +50,10 @@
           </div>
       {% endfor %}
     {% else %}
-      <h1> Ainda não houve posts publicados </h1>
+      <h1> Ainda não existem posts com este nome </h1>
     {% endif %}
       </div>
+{%else%}
+    <h1>No Search</h1>
+{%endif%}
 {% endblock %}
-

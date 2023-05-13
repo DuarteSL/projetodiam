@@ -3,6 +3,13 @@
 {% block title %}
   <title> Resultado da pesquisa </title>
 {% endblock %}
+{%block searchbar%}
+<form class='search-form' method=POST action ="{% url 'sitemestrado:searcheventos' %}">
+  {% csrf_token %}
+ <input type='search' placeholder='Search' name ="searched">
+ <button class'search-btn' type='submit'>Search</button>
+</form>  
+{%endblock%}
 
 {% block eventos-list %}
 {% endblock %}
@@ -34,5 +41,3 @@
 {%endif%}
 {% endblock %}
 
-{% block searchbar %}
-{% endblock %}

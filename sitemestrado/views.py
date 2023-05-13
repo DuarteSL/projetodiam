@@ -298,3 +298,19 @@ def detalhedisc(request, disc_id):
     disciplina = get_object_or_404(Disciplina,pk=disc_id)
     post_list = Post.objects.filter(disciplina=disciplina)
     return render(request, 'sitemestrado/detalhedisc.html',{'disciplina' : disciplina, 'post_list' : post_list})
+
+    
+def searchdisciplina(request):
+    if request.method == "POST":
+        searched = request.POST.get("searched")
+        lista =Disciplina.objects.filter(disciplina_nome__contains=searched)
+        return render(request, 'sitemestrado/searchdisciplina.html',{'searched':searched,'lista_disciplina':lista})  
+    return render(request, 'sitemestrado/searchdisciplina.html')      
+
+    
+def searchpost(request):
+    if request.method == "POST":
+        searched = request.POST.get("searched")
+        lista =Post.objects.filter(post_nome__contains=searched)
+        return render(request, 'sitemestrado/searchpost.html',{'searched':searched,'lista_post':lista})  
+    return render(request, 'sitemestrado/searchpost.html')     

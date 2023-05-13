@@ -3,9 +3,8 @@
 {% block title %}
   <title> Resultado da pesquisa  </title>
 {% endblock %}
-
 {%block searchbar%}
-<form class='search-form' method=POST action ="{% url 'sitemestrado:searchuser' %}">
+<form class='search-form' method=POST action ="{% url 'sitemestrado:searchdisciplina' %}">
   {% csrf_token %}
  <input type='search' placeholder='Search' name ="searched">
  <button class'search-btn' type='submit'>Search</button>
@@ -18,10 +17,11 @@
 {% block content %}
 {%if searched %}
 <h1> Resultados da pesquisa: </h1>
-    {% for user in listausers%}
-        {{user.get_username}}<br>
+    {% for disciplina in lista_disciplina%}
+        {{disciplina.disciplina_nome}}<br>
     {%endfor%}
 {%else%}
     <h1>No Search</h1>
 {%endif%}
 {% endblock %}
+
