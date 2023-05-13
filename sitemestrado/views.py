@@ -320,3 +320,20 @@ def searchpost(request):
         lista =Post.objects.filter(post_nome__contains=searched)
         return render(request, 'sitemestrado/searchpost.html',{'searched':searched,'lista_post':lista})  
     return render(request, 'sitemestrado/searchpost.html')     
+def alterarparaprof(request, user_id):
+     user  = get_object_or_404(User,pk=user_id)
+    if request.ser.is_staff:
+        if user.aluno:
+            img = user.aluno.imagem
+            areatrab= user.aluno.area_trab
+            linkedin = user.aluno.linkedin
+            p = Professor(imagem = img, area_trab = areatrab, linkedin = linkedin)
+            p.save()
+            user.aluno.filter(id=user_id).delete()
+        elif user.professor:
+            img =  img = user.professor.imagem
+            areatrab= user.profesor.area_trab
+            linkedin = user.professor.linkedin
+            a = Aluno(imagem = img, area_trab = areatrab, linkedin = linkedin)
+            a.save()
+            user.professor.filter(id=user.id).delete()
