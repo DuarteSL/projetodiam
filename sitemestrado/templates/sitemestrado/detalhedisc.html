@@ -23,15 +23,15 @@
   {% if post_list %}
     {% for post in post_list %}
       <div class="post-layout">
-        <a href="{% url 'sitemestrado:detalhepost' post.id %}">
           <div class="post-capa">
+          <a href="{% url 'sitemestrado:detalhepost' post.id %}">
           {% if post.post_capa %}
             <img src=" {{ post.post_capa }}">
           {% else %}
             <img src="{% static "/imagens/defaultnoticia.png" %}">
           {% endif %}
+          </a>
           </div>
-        </a>
           <div class="post-container">
             <div class="post-nome-e-autor">
               <a href="{% url 'sitemestrado:detalhepost' post.id %}">
