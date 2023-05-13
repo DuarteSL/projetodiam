@@ -23,9 +23,9 @@
 </div>
 <div style="padding-top: 67px">
     {% if eventos_list %}
+    <div id = "future">
       {% for evento in eventos_list %}
         {%if evento.is_past_due%}
-        <div id = "future">
         <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
           <div class="evento-layout">
             <div class="evento-capa">
@@ -42,28 +42,33 @@
             </div>
           </div>
         </a>
-      </div>
-      {%else%}
-      <div id = "past" style ="display : none">
-        <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
-          <div class="evento-layout">
-            <div class="evento-capa">
-            {% if evento.evento_capa %}
-             <img src=" {{ evento.evento_capa }}">
-            {% else %}
-             <img src="{% static "/imagens/defaultnoticia.png" %}">
-            {% endif %}
-            </div>
-            <div class="evento-nome-and-data-container">
-              <h5 style="margin:0"> {{ evento.evento_data }} </h5>
-              <h3> {{ evento.evento_nome }} </h3>
-              <h4 style="margin:0"> {{ evento.evento_local }} </h4>
-            </div>
-          </div>
-        </a>  
-      </div>
-      {%endif%}
+        {%endif%}
       {% endfor %}
+      </div>
+      <div id = "past">
+        {% for evento in eventos_list %}
+          {%if not evento.is_past_due%}
+          <a href="{% url 'sitemestrado:detalheevento' evento.id %}">
+            <div class="evento-layout">
+              <div class="evento-capa">
+              {% if evento.evento_capa %}
+               <img src=" {{ evento.evento_capa }}">
+              {% else %}
+               <img src="{% static "/imagens/defaultnoticia.png" %}">
+              {% endif %}
+              </div>
+              <div class="evento-nome-and-data-container">
+                <h5 style="margin:0"> {{ evento.evento_data }} </h5>
+                <h3> {{ evento.evento_nome }} </h3>
+                <h4 style="margin:0"> {{ evento.evento_local }} </h4>
+              </div>
+            </div>
+          </a>
+        </div>
+        {%endif%}
+        {% endfor %}
+
+
     {% else %}
       <h1> Não há eventos planeados </h1>
     {% endif %}
