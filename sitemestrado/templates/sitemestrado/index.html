@@ -11,7 +11,7 @@
         {% endblock%}
     </head>
     <body>
-      <div class="login-container" style="position: fixed; top:0; right:0; z-index:5; background-color:white" >
+      <div class="login-container" style="position: fixed; top:0; right:0; z-index:5; background-color:rgb(197, 182, 159)" >
           {% if request.user.is_authenticated %}
                     <div style="display: inline-block"> 
                       {{ request.user.first_name }} {{ request.user.last_name }}
